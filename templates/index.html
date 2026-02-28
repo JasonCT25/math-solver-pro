@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auto Math Solver</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .upload-box { border: 2px dashed #ccc; padding: 50px; width: 300px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <h1>Upload Homework PDF</h1>
+    <div class="upload-box">
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".pdf" required>
+            <br><br>
+            <button type="submit">Solve</button>
+        </form>
+    </div>
+</body>
+</html>
