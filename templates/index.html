@@ -185,26 +185,42 @@
             document.getElementById('solveBatch').disabled = !e.target.value;
         };
 
-        async function startStream(filename, count) {
-            const consoleCard = document.getElementById('console-card');
+        async function startStream(session, count) {
             const consoleDiv = document.getElementById('console');
             const header = document.getElementById('progress-header');
-            
-            consoleCard.style.display = 'block';
+            document.getElementById('console-card').style.display = 'block';
             header.style.display = 'block';
-            consoleDiv.innerHTML = "🚀 Initializing...<br>";
 
-            const eventSource = new EventSource(`/stream/${encodeURIComponent(filename)}?manual_count=${count}`);
-            
-            eventSource.onmessage = (e) => {
+            const eventSource = new EventSource(`/stream/${encodeURIComponent(session)}?manual_count=${count}`);
+
+            eventSource.onmessage = async (e) => {
+                // 🔧 AUTO-RESUME TRIGGER: If storage is cleared, re-click the solve button
+                if (e.data.includes("❌ Error: No files found")) {
+                    eventSource.close();
+                    consoleDiv.innerHTML += "<span style='color:#ffc107'>🔄 Storage cleared by server. Re-uploading and resuming...</span><br>";
+                    
+                    // Small delay to ensure clean re-upload
+                    setTimeout(() => {
+                        const batchBtn = document.getElementById('solveBatch');
+                        const expressBtn = document.getElementById('expressBtn');
+                        
+                        // Decide which button to re-trigger based on visibility
+                        if (document.getElementById('cropInterface').style.display !== 'none') {
+                            batchBtn.click();
+                        } else {
+                            expressBtn.click();
+                        }
+                    }, 2000);
+                    return;
+                }
+
                 if (e.data.includes("SUCCESS:")) {
                     const pdfs = e.data.split(":")[1].split("|");
-                    const sol = pdfs[0], prac = pdfs[1];
                     eventSource.close();
                     header.textContent = "✅ DONE!";
-                    document.getElementById('finalDownload').href = `/download/${sol}`;
+                    document.getElementById('finalDownload').href = `/download/${pdfs[0]}`;
                     document.getElementById('downloadArea').style.display = 'block';
-                    window.location.href = `/download/${sol}`;
+                    window.location.href = `/download/${pdfs[0]}`;
                 } else {
                     if (e.data.includes("Solving problem")) {
                         header.textContent = "📊 Progress: " + e.data.split("...")[0];
@@ -213,13 +229,16 @@
                     consoleDiv.scrollTop = consoleDiv.scrollHeight;
                 }
             };
+
+            eventSource.onerror = () => {
+                consoleDiv.innerHTML += "⚠️ Connection blip. Browser will auto-reconnect...<br>";
+            };
         }
 
         document.getElementById('expressBtn').onclick = async () => {
             if (!document.getElementById('fileInput').files[0]) return alert("Select a file!");
             const formData = new FormData();
             formData.append('file', document.getElementById('fileInput').files[0]);
-            // FIX: Changed from /upload to /upload_full to match app.py
             const res = await fetch('/upload_full', { method: 'POST', body: formData });
             const { session } = await res.json();
             startStream(session, "");
@@ -229,9 +248,11 @@
             const res = await fetch('/upload_batch', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ images: cropQueue, original_name: document.getElementById('fileInput').files[0].name })
+                body: JSON.stringify({ 
+                    images: cropQueue, 
+                    original_name: document.getElementById('fileInput').files[0].name 
+                })
             });
-            // FIX: Extract 'session' instead of 'filenames', and pass 'session' to startStream
             const { session } = await res.json();
             startStream(session, document.getElementById('manualCount').value);
         };
