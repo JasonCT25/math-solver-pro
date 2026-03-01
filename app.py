@@ -1,6 +1,6 @@
 import os, re, time, uuid, subprocess
 from datetime import datetime, timedelta
-from flask import Flask, request, Response, send_file, abort, send_from_directory
+from flask import Flask, request, Response, send_file, abort, send_from_directory, render_template
 from dotenv import load_dotenv
 import sympy as sp
 from google import genai
@@ -150,9 +150,9 @@ def before_request():
     cleanup_old_files()
     enforce_upload_limits(request)
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
-    return send_from_directory("static", "index.html")
+    return render_template("index.html")
 
 @app.route("/upload_full", methods=["POST"])
 def upload_file():
