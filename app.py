@@ -187,6 +187,7 @@ def stream(session_id):
     prac_pdf = os.path.join(TMP_DIR, f"{session_id}_Practice.pdf")
 
     def generate():
+        yield "data: 🚀 Stream connected. Preparing session...\n\n"
         if os.path.exists(tex_file):
             yield f"data: Found existing .tex, regenerating PDFs...\n\n"
             create_pdf_from_tex(tex_file, sol_pdf)
