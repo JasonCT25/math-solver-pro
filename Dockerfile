@@ -1,16 +1,10 @@
 # Use an official Python image
 FROM python:3.11-slim
 
-# Install dependencies for LaTeX and system utilities
+# Install dependencies for LaTeX
 RUN apt-get update && \
-    apt-get install -y \
-        texlive-latex-base \
-        texlive-fonts-recommended \
-        texlive-latex-extra \
-        build-essential \
-        curl \
-        git \
-        && rm -rf /var/lib/apt/lists/*
+    apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-latex-extra && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
@@ -25,8 +19,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy app code
 COPY . .
 
-# Expose port Render uses
+# Expose the port that Render will assign
 EXPOSE $PORT
 
-# Run the app with Gunicorn (shell form so $PORT expands correctly)
+# Run the app with gunicorn (shell form so $PORT works)
 CMD gunicorn app:app --bind 0.0.0.0:$PORT --workers 1
