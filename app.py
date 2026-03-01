@@ -204,7 +204,7 @@ def stream(session_id):
     def generate():
         yield "data: 🚀 Stream connected. Preparing session...\n\n"
 
-        # 🔧 FIX: locate PDFs OR PNGs for this session
+        # 🔧 Locate PDFs OR PNGs for this session
         session_files = []
         for f_name in sorted(os.listdir(TMP_DIR)):
             if f_name.startswith(session_id) and f_name.lower().endswith((".pdf", ".png")):
@@ -214,91 +214,95 @@ def stream(session_id):
             yield "data: ❌ Error: No files found for this session.\n\n"
             return
 
-        # 🔧 FIX: upload ALL located files to Gemini File API
-        uploaded_files = []
-        try:
-            yield f"data: 📤 Uploading {len(session_files)} file(s) to Gemini...\n\n"
-            for f_path in session_files:
-                up_file = client.files.upload(file=f_path)
-                
-                while getattr(up_file.state, "name", str(up_file.state)) == "PROCESSING":
-                    time.sleep(2)
-                    up_file = client.files.get(name=up_file.name)
-                
-                uploaded_files.append(up_file)
-
-            yield "data: ✅ Files ready for processing.\n\n"
-        except Exception as e:
-            yield f"data: ❌ Upload failed: {e}\n\n"
-            return
-
-        # Only run physics check if a PDF was uploaded
-        pdf_path = next((f for f in session_files if f.lower().endswith('.pdf')), None)
-        physics_flag = is_physics_pdf(pdf_path) if pdf_path else False
-
-        # 🔧 FIX: Check for existing progress so auto-reconnects don't overwrite everything
+        # 🔧 Check for existing progress
         start_problem = 1
         if os.path.exists(tex_file):
             with open(tex_file, "r") as f:
                 content = f.read()
-                # Count how many problems have already been written
                 start_problem = content.count("\\section*{Problem") + 1
 
-        if start_problem == 1:
-            with open(tex_file, "w") as f:
-                f.write(r"\documentclass{article}\usepackage{amsmath,amssymb,tikz}\begin{document}")
-        else:
-            yield f"data: 🔄 Connection resumed. Picking up at problem {start_problem}...\n\n"
+        # 🔧 Logic: If we are already done, jump to finalization
+        if start_problem <= manual_count:
+            # Only upload to Gemini if we actually have work to do
+            uploaded_files = []
+            try:
+                yield f"data: 📤 Uploading {len(session_files)} file(s) to Gemini...\n\n"
+                for f_path in session_files:
+                    up_file = client.files.upload(file=f_path)
+                    while getattr(up_file.state, "name", str(up_file.state)) == "PROCESSING":
+                        time.sleep(2)
+                        up_file = client.files.get(name=up_file.name)
+                    uploaded_files.append(up_file)
+                yield "data: ✅ Files ready for processing.\n\n"
+            except Exception as e:
+                yield f"data: ❌ Upload failed: {e}\n\n"
+                return
 
-        # Update the loop to start from where it left off
-        for i in range(start_problem, manual_count + 1):
-            yield f"data: Solving problem {i}/{manual_count}...\n\n"
-            # ... (the rest of your prompt and retry loop stays exactly the same)
-            prompt = f"Solve problem {i}."
-            if physics_flag:
-                prompt += " Include a free body diagram using TikZ in LaTeX. No markdown."
+            # Physics check
+            pdf_path = next((f for f in session_files if f.lower().endswith('.pdf')), None)
+            physics_flag = is_physics_pdf(pdf_path) if pdf_path else False
 
-            for attempt in range(MAX_RETRIES):
-                try:
-                    # 🔧 FIX: Pass the entire list of uploaded files, plus the prompt
-                    contents = [*uploaded_files, prompt]
-                    
-                    resp = client.models.generate_content(
-                        model="gemini-2.5-flash-lite",
-                        contents=contents,
-                    )
-
-                    raw = resp.text.replace("```", "").strip()
-                    if any(p in raw.lower() for p in HALLUCINATION_PHRASES):
-                        continue
-
-                    checks = [
-                        verify_integral(raw),
-                        verify_division(raw),
-                        step_consistency(raw),
-                        unit_sanity(raw),
-                    ]
-                    errors = [e for ok, e in checks if not ok]
-                    if errors:
-                        yield f"data: ❌ Problem {i}: {errors[0]}\n\n"
-                        continue
-
-                    clean = surgical_markdown_scrubber(raw)
-                    with open(tex_file, "a") as f_tex:
-                        f_tex.write(f"\\section*{{Problem {i}}}\n{clean}\n\\newpage\n")
-                    break
-                except Exception as e:
-                    yield f"data: ⚠️ Problem {i} attempt {attempt+1} failed: {e}\n\n"
-                    time.sleep(RATE_LIMIT_DELAY)
+            if start_problem == 1:
+                with open(tex_file, "w") as f:
+                    f.write(r"\documentclass{article}\usepackage{amsmath,amssymb,tikz}\begin{document}")
             else:
-                yield f"data: ❌ Problem {i} failed after {MAX_RETRIES} attempts\n\n"
+                yield f"data: 🔄 Connection resumed. Picking up at problem {start_problem}...\n\n"
 
-        with open(tex_file, "a") as f:
-            f.write(r"\end{document}")
+            # Solving Loop
+            for i in range(start_problem, manual_count + 1):
+                yield f"data: Solving problem {i}/{manual_count}...\n\n"
+                prompt = f"Solve problem {i}."
+                if physics_flag:
+                    prompt += " Include a free body diagram using TikZ in LaTeX. No markdown."
 
+                for attempt in range(MAX_RETRIES):
+                    try:
+                        contents = [*uploaded_files, prompt]
+                        resp = client.models.generate_content(
+                            model="gemini-2.0-flash-lite",
+                            contents=contents,
+                        )
+                        raw = resp.text.replace("```", "").strip()
+                        if any(p in raw.lower() for p in HALLUCINATION_PHRASES):
+                            continue
+
+                        checks = [
+                            verify_integral(raw),
+                            verify_division(raw),
+                            step_consistency(raw),
+                            unit_sanity(raw),
+                        ]
+                        errors = [e for ok, e in checks if not ok]
+                        if errors:
+                            yield f"data: ❌ Problem {i}: {errors[0]}\n\n"
+                            continue
+
+                        clean = surgical_markdown_scrubber(raw)
+                        with open(tex_file, "a") as f_tex:
+                            f_tex.write(f"\\section*{{Problem {i}}}\n{clean}\n\\newpage\n")
+                        break
+                    except Exception as e:
+                        yield f"data: ⚠️ Problem {i} attempt {attempt+1} failed: {e}\n\n"
+                        time.sleep(RATE_LIMIT_DELAY)
+                else:
+                    yield f"data: ❌ Problem {i} failed after {MAX_RETRIES} attempts\n\n"
+        else:
+            yield "data: ✨ All problems already solved. Finalizing PDF...\n\n"
+
+        # 🔧 FINALIZATION: Run this regardless of if we just solved or just resumed at the end
+        with open(tex_file, "r") as f:
+            full_content = f.read()
+        
+        if r"\end{document}" not in full_content:
+            with open(tex_file, "a") as f_end:
+                f_end.write(r"\end{document}")
+
+        yield "data: 🖨️ Compiling PDF solutions...\n\n"
         create_pdf_from_tex(tex_file, sol_pdf)
-        practice = [f"Practice version of problem {i}" for i in range(1, manual_count + 1)]
-        create_practice_pdf(practice, os.path.basename(prac_pdf))
+        
+        # Create practice version names
+        practice_problems = [f"Practice version of problem {i}" for i in range(1, manual_count + 1)]
+        create_practice_pdf(practice_problems, os.path.basename(prac_pdf))
 
         yield f"data: SUCCESS:{os.path.basename(sol_pdf)}|{os.path.basename(prac_pdf)}\n\n"
 
