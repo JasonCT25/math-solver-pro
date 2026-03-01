@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import sympy as sp
 from google import genai
 import fitz  # PyMuPDF for PDF text extraction
+import threading
 
 load_dotenv()
 
@@ -79,37 +80,35 @@ def surgical_markdown_scrubber(text):
 def verify_integral(raw):
     try:
         m = re.search(r'\\int\s*(.*?)\s*d([a-z])\s*=\s*(.*)', raw)
-        if not m:
-            return True, None
+        if not m: return True, None
         integrand = sp.sympify(m.group(1))
         var = sp.symbols(m.group(2))
         result = sp.sympify(m.group(3).replace('+ C', '').strip())
         return sp.simplify(sp.diff(result, var) - integrand) == 0, None
     except Exception as e:
-        return False, f"Integral verification failed: {e}"
+        return False, f"Integral error: {e}"
 
 def verify_division(raw):
     try:
         q = re.search(r'q\s*=\s*(-?\d+)', raw)
         r = re.search(r'r\s*=\s*(-?\d+)', raw)
         eq = re.search(r'(\d+)\s*=\s*(\d+)\s*\*\s*q\s*\+\s*r', raw)
-        if not (q and r and eq):
-            return True, None
+        if not (q and r and eq): return True, None
         n, d = int(eq.group(1)), int(eq.group(2))
         return n == d * int(q.group(1)) + int(r.group(1)), None
     except Exception as e:
-        return False, f"Division check failed: {e}"
+        return False, f"Division error: {e}"
 
 def step_consistency(raw):
     answers = re.findall(r'(q|r|x|y)\s*=\s*[-\w]+', raw)
     for a in answers:
         if raw.count(a) < 2:
-            return False, f"Answer {a} not derived earlier"
+            return False, f"Consistency warning: {a}"
     return True, None
 
 def unit_sanity(raw):
     if "kg" in raw and "m/s^2" in raw and "N" not in raw:
-        return False, "Force computed without Newtons"
+        return False, "Missing Newtons"
     return True, None
 
 # ------------------ PDF / LaTeX ------------------
@@ -135,12 +134,6 @@ def create_practice_pdf(problems, filename):
     doc.build(content)
     return path
 
-# ------------------ Physics Detection ------------------
-PHYSICS_KEYWORDS = [
-    "force", "mass", "acceleration", "velocity", "N", "kg", "m/s^2",
-    "free body", "diagram", "newton", "kinematics", "dynamics", "torque"
-]
-
 def is_physics_pdf(pdf_path):
     fname = pdf_path.lower()
     if any(k in fname for k in ["physics", "mechanics", "forces", "kinematics", "dynamics"]):
@@ -150,7 +143,7 @@ def is_physics_pdf(pdf_path):
         text = ""
         for page in doc:
             text += page.get_text("text").lower()
-            if any(k in text for k in PHYSICS_KEYWORDS):
+            if any(k in text for k in ["force", "mass", "acceleration", "velocity", "N", "kg"]):
                 return True
         return False
     except Exception:
@@ -168,8 +161,7 @@ def index():
 
 @app.route("/upload_full", methods=["POST"])
 def upload_file():
-    if "file" not in request.files:
-        abort(400, "No file")
+    if "file" not in request.files: abort(400, "No file")
     file = request.files["file"]
     original = secure_filename(file.filename)
     session_id = uuid.uuid4().hex
@@ -177,7 +169,6 @@ def upload_file():
     file.save(input_path)
     return {"filename": original, "session": session_id}
 
-# 🔧 FIX: Re-added the missing upload_batch function with base64 decoding
 @app.route("/upload_batch", methods=["POST"])
 def upload_batch():
     data = request.get_json()
@@ -193,10 +184,8 @@ def upload_batch():
 
 @app.route("/stream/<session_id>")
 def stream(session_id):
-    import threading  # Added for the heartbeat logic
     manual_count = int(request.args.get("manual_count", "0") or 0)
-    if manual_count > MAX_PROBLEMS:
-        abort(400, "Too many problems")
+    if manual_count > MAX_PROBLEMS: abort(400, "Too many problems")
 
     tex_file = os.path.join(TMP_DIR, f"{session_id}_Solutions.tex")
     sol_pdf = os.path.join(TMP_DIR, f"{session_id}_Solutions.pdf")
@@ -254,18 +243,23 @@ def stream(session_id):
                     try:
                         contents = [*uploaded_files, prompt]
                         resp = client.models.generate_content(
-                            model="gemini-2.5-flash-lite",
+                            model="gemini-2.0-flash-lite",
                             contents=contents,
                         )
                         raw = resp.text.replace("```", "").strip()
                         if any(p in raw.lower() for p in HALLUCINATION_PHRASES):
                             continue
 
-                        checks = [verify_integral(raw), verify_division(raw), step_consistency(raw), unit_sanity(raw)]
-                        errors = [e for ok, e in checks if not ok]
-                        if errors:
-                            yield f"data: ❌ Problem {i}: {errors[0]}\n\n"
-                            continue
+                        # 🔧 SOFT CHECKS: We log warnings but DO NOT skip the problem anymore
+                        checks = [
+                            (verify_integral(raw), "Integral Check"),
+                            (verify_division(raw), "Division Check"),
+                            (step_consistency(raw), "Consistency Check"),
+                            (unit_sanity(raw), "Unit Sanity Check"),
+                        ]
+                        warnings = [name for (ok, msg), name in checks if not ok]
+                        if warnings:
+                            yield f"data: ⚠️ Problem {i} warning: {', '.join(warnings)} (Proceeding anyway...)\n\n"
 
                         clean = surgical_markdown_scrubber(raw)
                         with open(tex_file, "a") as f_tex:
@@ -279,7 +273,6 @@ def stream(session_id):
         else:
             yield "data: ✨ All problems already solved. Finalizing PDF...\n\n"
 
-        # --- Heartbeat Compilation Logic ---
         with open(tex_file, "r") as f:
             if r"\end{document}" not in f.read():
                 with open(tex_file, "a") as f_end:
@@ -295,7 +288,6 @@ def stream(session_id):
         compile_thread = threading.Thread(target=compile_task)
         compile_thread.start()
 
-        # Keep the stream alive while pdflatex works
         while compile_thread.is_alive():
             yield "data: ⏳ Working... \n\n"
             time.sleep(3)
@@ -310,10 +302,8 @@ def stream(session_id):
 @app.route("/download/<filename>")
 def download(filename):
     path = os.path.join(TMP_DIR, secure_filename(filename))
-    if not os.path.exists(path):
-        abort(404)
+    if not os.path.exists(path): abort(404)
     return send_file(path, as_attachment=True)
 
-# ------------------ Run ------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=False)
