@@ -193,6 +193,7 @@ def upload_batch():
 
 @app.route("/stream/<session_id>")
 def stream(session_id):
+    import threading  # Added for the heartbeat logic
     manual_count = int(request.args.get("manual_count", "0") or 0)
     if manual_count > MAX_PROBLEMS:
         abort(400, "Too many problems")
@@ -204,7 +205,6 @@ def stream(session_id):
     def generate():
         yield "data: 🚀 Stream connected. Preparing session...\n\n"
 
-        # 🔧 Locate PDFs OR PNGs for this session
         session_files = []
         for f_name in sorted(os.listdir(TMP_DIR)):
             if f_name.startswith(session_id) and f_name.lower().endswith((".pdf", ".png")):
@@ -214,16 +214,13 @@ def stream(session_id):
             yield "data: ❌ Error: No files found for this session.\n\n"
             return
 
-        # 🔧 Check for existing progress
         start_problem = 1
         if os.path.exists(tex_file):
             with open(tex_file, "r") as f:
                 content = f.read()
                 start_problem = content.count("\\section*{Problem") + 1
 
-        # 🔧 Logic: If we are already done, jump to finalization
         if start_problem <= manual_count:
-            # Only upload to Gemini if we actually have work to do
             uploaded_files = []
             try:
                 yield f"data: 📤 Uploading {len(session_files)} file(s) to Gemini...\n\n"
@@ -238,7 +235,6 @@ def stream(session_id):
                 yield f"data: ❌ Upload failed: {e}\n\n"
                 return
 
-            # Physics check
             pdf_path = next((f for f in session_files if f.lower().endswith('.pdf')), None)
             physics_flag = is_physics_pdf(pdf_path) if pdf_path else False
 
@@ -248,7 +244,6 @@ def stream(session_id):
             else:
                 yield f"data: 🔄 Connection resumed. Picking up at problem {start_problem}...\n\n"
 
-            # Solving Loop
             for i in range(start_problem, manual_count + 1):
                 yield f"data: Solving problem {i}/{manual_count}...\n\n"
                 prompt = f"Solve problem {i}."
@@ -259,19 +254,14 @@ def stream(session_id):
                     try:
                         contents = [*uploaded_files, prompt]
                         resp = client.models.generate_content(
-                            model="gemini-2.5-flash-lite",
+                            model="gemini-2.0-flash-lite",
                             contents=contents,
                         )
                         raw = resp.text.replace("```", "").strip()
                         if any(p in raw.lower() for p in HALLUCINATION_PHRASES):
                             continue
 
-                        checks = [
-                            verify_integral(raw),
-                            verify_division(raw),
-                            step_consistency(raw),
-                            unit_sanity(raw),
-                        ]
+                        checks = [verify_integral(raw), verify_division(raw), step_consistency(raw), unit_sanity(raw)]
                         errors = [e for ok, e in checks if not ok]
                         if errors:
                             yield f"data: ❌ Problem {i}: {errors[0]}\n\n"
@@ -289,37 +279,31 @@ def stream(session_id):
         else:
             yield "data: ✨ All problems already solved. Finalizing PDF...\n\n"
 
-        # --- Finalization ---
+        # --- Heartbeat Compilation Logic ---
         with open(tex_file, "r") as f:
-            full_content = f.read()
-        
-        if r"\end{document}" not in full_content:
-            with open(tex_file, "a") as f_end:
-                f_end.write(r"\end{document}")
+            if r"\end{document}" not in f.read():
+                with open(tex_file, "a") as f_end:
+                    f_end.write(r"\end{document}")
 
-        yield "data: 🖨️ Compiling PDF solutions (this may take a minute)... \n\n"
+        yield "data: 🖨️ Compiling PDF (staying connected)... \n\n"
 
-        # 🔧 FIX: Run compilation in a background way so we can send heartbeats
-        # This keeps the Render/Browser connection from timing out
-        import threading
-        
-        def compile_worker():
+        def compile_task():
             create_pdf_from_tex(tex_file, sol_pdf)
             practice_problems = [f"Practice version of problem {i}" for i in range(1, manual_count + 1)]
             create_practice_pdf(practice_problems, os.path.basename(prac_pdf))
 
-        thread = threading.Thread(target=compile_worker)
-        thread.start()
+        compile_thread = threading.Thread(target=compile_task)
+        compile_thread.start()
 
-        # While the thread is working, send a "." every 2 seconds to keep connection alive
-        while thread.is_alive():
-            yield "data: . \n\n"
-            time.sleep(2)
+        # Keep the stream alive while pdflatex works
+        while compile_thread.is_alive():
+            yield "data: ⏳ Working... \n\n"
+            time.sleep(3)
 
         if os.path.exists(sol_pdf):
             yield f"data: SUCCESS:{os.path.basename(sol_pdf)}|{os.path.basename(prac_pdf)}\n\n"
         else:
-            yield "data: ❌ PDF compilation failed. Check your LaTeX code.\n\n"
+            yield "data: ❌ PDF compilation failed. \n\n"
 
     return Response(generate(), mimetype="text/event-stream")
 
