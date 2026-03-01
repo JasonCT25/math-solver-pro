@@ -18,8 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy app code
 COPY . .
 
-# Expose port Render uses
-EXPOSE 10000
+# Expose port (optional, Render sets PORT dynamically)
+# EXPOSE $PORT
 
-# Run the app with gunicorn
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:$PORT", "--workers", "1"]
+# Run the app with gunicorn, using shell form to expand $PORT
+CMD gunicorn app:app --bind 0.0.0.0:$PORT --workers 1
