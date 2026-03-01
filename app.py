@@ -236,11 +236,24 @@ def stream(session_id):
         pdf_path = next((f for f in session_files if f.lower().endswith('.pdf')), None)
         physics_flag = is_physics_pdf(pdf_path) if pdf_path else False
 
-        with open(tex_file, "w") as f:
-            f.write(r"\documentclass{article}\usepackage{amsmath,amssymb,tikz}\begin{document}")
+        # 🔧 FIX: Check for existing progress so auto-reconnects don't overwrite everything
+        start_problem = 1
+        if os.path.exists(tex_file):
+            with open(tex_file, "r") as f:
+                content = f.read()
+                # Count how many problems have already been written
+                start_problem = content.count("\\section*{Problem") + 1
 
-        for i in range(1, manual_count + 1):
+        if start_problem == 1:
+            with open(tex_file, "w") as f:
+                f.write(r"\documentclass{article}\usepackage{amsmath,amssymb,tikz}\begin{document}")
+        else:
+            yield f"data: 🔄 Connection resumed. Picking up at problem {start_problem}...\n\n"
+
+        # Update the loop to start from where it left off
+        for i in range(start_problem, manual_count + 1):
             yield f"data: Solving problem {i}/{manual_count}...\n\n"
+            # ... (the rest of your prompt and retry loop stays exactly the same)
             prompt = f"Solve problem {i}."
             if physics_flag:
                 prompt += " Include a free body diagram using TikZ in LaTeX. No markdown."
