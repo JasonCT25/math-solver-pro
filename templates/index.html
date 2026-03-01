@@ -1,20 +1,239 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Auto Math Solver</title>
+    <meta charset="UTF-8">
+    <title>Math Solver Pro - Universal Edition</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        .upload-box { border: 2px dashed #ccc; padding: 50px; width: 300px; margin: 0 auto; }
+        body { font-family: 'Segoe UI', sans-serif; max-width: 1100px; margin: 20px auto; padding: 20px; background: #f0f2f5; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 15px; }
+        
+        #viewer-container { 
+            position: relative; border: 2px solid #333; background: #525659; 
+            margin: 20px 0; overflow: auto; max-height: 750px; 
+            display: block; text-align: center;
+            touch-action: none; 
+        }
+        canvas { display: inline-block; background: white; cursor: crosshair; }
+        #selection-box { 
+            position: absolute; border: 2px dashed #ff0000; background: rgba(255, 0, 0, 0.15); 
+            pointer-events: none; display: none; z-index: 1000;
+        }
+        
+        .btn { padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+
+        /* Integrated Scrollable Console */
+        #console { 
+            background: #1e1e1e; 
+            color: #00ff00; 
+            padding: 20px; 
+            border-radius: 0 0 8px 8px; 
+            font-family: 'Courier New', Courier, monospace; 
+            height: 350px; 
+            overflow-y: auto; 
+            text-align: left;
+            border: 2px solid #333;
+        }
+
+        /* Sticky Dashboard Header */
+        #progress-header {
+            background: #2a2a2a;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            font-weight: bold;
+            display: none;
+            border: 2px solid #333;
+            border-bottom: none;
+        }
+
+        .queue-badge { background: #17a2b8; color: white; padding: 6px 14px; border-radius: 50px; font-size: 13px; }
     </style>
 </head>
 <body>
-    <h1>Upload Homework PDF</h1>
-    <div class="upload-box">
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" name="file" accept=".pdf" required>
-            <br><br>
-            <button type="submit">Solve</button>
-        </form>
+
+    <div class="card">
+        <h1>Math Solver Pro</h1>
+        <div class="controls">
+            <input type="file" id="fileInput">
+            <button id="expressBtn" class="btn btn-primary">🚀 Solve Full PDF</button>
+            <button id="toggleCrop" class="btn btn-secondary" style="background:#6c757d; color:white;">✂️ Custom Crop Mode</button>
+        </div>
     </div>
+
+    <div id="cropInterface" class="card" style="display:none;">
+        <div class="controls">
+            <button id="prevPage" class="btn btn-secondary" style="background:#6c757d; color:white;">◀ Prev</button>
+            <button id="nextPage" class="btn btn-secondary" style="background:#6c757d; color:white;">Next ▶</button>
+            <button id="addCrop" class="btn btn-primary">➕ Add Crop</button>
+            <button id="clearQueue" class="btn btn-danger">🗑️ Clear Queue</button>
+            <span class="queue-badge" id="queueStatus">Queue: 0 items</span>
+        </div>
+        
+        <div id="viewer-container">
+            <canvas id="pdfCanvas"></canvas>
+            <div id="selection-box"></div>
+        </div>
+
+        <div class="controls" style="justify-content: center; padding-top: 20px;">
+            <input type="number" id="manualCount" placeholder="Total Problems (Required)" style="width: 200px; padding:10px;">
+            <button id="solveBatch" class="btn btn-success" disabled>🔥 Solve Batch</button>
+        </div>
+    </div>
+
+    <div id="console-card" style="display:none; margin-top: 20px;">
+        <div id="progress-header">Current Status: Initializing...</div>
+        <div id="console"></div>
+    </div>
+
+    <div id="downloadArea" style="display:none; text-align: center; margin-top: 20px;">
+        <a href="#" id="finalDownload" class="btn btn-success" style="padding: 20px 40px; font-size: 20px;">📥 Download Your Solutions PDF</a>
+    </div>
+
+    <script>
+        const pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        let pdfDoc = null, pageNum = 1, scale = 1.5, cropQueue = [];
+        const canvas = document.getElementById('pdfCanvas'), ctx = canvas.getContext('2d');
+        const selectionBox = document.getElementById('selection-box');
+        let startX, startY, isDrawing = false;
+
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = async function() {
+                const typedarray = new Uint8Array(this.result);
+                pdfDoc = await pdfjsLib.getDocument(typedarray).promise;
+                renderPage(1);
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        async function renderPage(num) {
+            const page = await pdfDoc.getPage(num);
+            const viewport = page.getViewport({ scale });
+            canvas.height = viewport.height; canvas.width = viewport.width;
+            await page.render({ canvasContext: ctx, viewport }).promise;
+            pageNum = num;
+            selectionBox.style.display = 'none';
+        }
+
+        document.getElementById('prevPage').onclick = () => { if (pageNum > 1) renderPage(pageNum - 1); };
+        document.getElementById('nextPage').onclick = () => { if (pageNum < pdfDoc.numPages) renderPage(pageNum + 1); };
+        document.getElementById('toggleCrop').onclick = () => {
+            const ui = document.getElementById('cropInterface');
+            ui.style.display = ui.style.display === 'none' ? 'block' : 'none';
+        };
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        function startDrawing(e) {
+            const pos = getPos(e); startX = pos.x; startY = pos.y; isDrawing = true;
+            selectionBox.style.display = 'block';
+            selectionBox.style.left = (canvas.offsetLeft + startX) + 'px';
+            selectionBox.style.top = (canvas.offsetTop + startY) + 'px';
+            selectionBox.style.width = '0px'; selectionBox.style.height = '0px';
+        }
+
+        function moveDrawing(e) {
+            if (!isDrawing) return;
+            const pos = getPos(e);
+            const w = Math.abs(pos.x - startX); const h = Math.abs(pos.y - startY);
+            selectionBox.style.width = w + 'px'; selectionBox.style.height = h + 'px';
+            selectionBox.style.left = (canvas.offsetLeft + Math.min(pos.x, startX)) + 'px';
+            selectionBox.style.top = (canvas.offsetTop + Math.min(pos.y, startY)) + 'px';
+        }
+
+        canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('touchstart', startDrawing);
+        window.addEventListener('mousemove', moveDrawing); window.addEventListener('touchmove', moveDrawing, {passive: false});
+        window.addEventListener('mouseup', () => isDrawing = false); window.addEventListener('touchend', () => isDrawing = false);
+
+        document.getElementById('addCrop').onclick = () => {
+            const temp = document.createElement('canvas'); const tCtx = temp.getContext('2d');
+            const boxX = parseInt(selectionBox.style.left) - canvas.offsetLeft;
+            const boxY = parseInt(selectionBox.style.top) - canvas.offsetTop;
+            const w = parseInt(selectionBox.style.width); const h = parseInt(selectionBox.style.height);
+            if (!w || !h) return alert("Select an area first!");
+            temp.width = w; temp.height = h;
+            tCtx.drawImage(canvas, boxX, boxY, w, h, 0, 0, w, h);
+            cropQueue.push(temp.toDataURL('image/png'));
+            document.getElementById('queueStatus').textContent = `Queue: ${cropQueue.length} items`;
+            selectionBox.style.display = 'none';
+        };
+
+        document.getElementById('clearQueue').onclick = () => {
+            cropQueue = []; document.getElementById('queueStatus').textContent = `Queue: 0 items`;
+        };
+
+        document.getElementById('manualCount').oninput = (e) => {
+            document.getElementById('solveBatch').disabled = !e.target.value;
+        };
+
+        // Integrated Stream Logic
+        async function startStream(filename, count) {
+            const consoleCard = document.getElementById('console-card');
+            const consoleDiv = document.getElementById('console');
+            const header = document.getElementById('progress-header');
+            
+            consoleCard.style.display = 'block';
+            header.style.display = 'block';
+            consoleDiv.innerHTML = "🚀 Initializing...<br>";
+
+            const eventSource = new EventSource(`/stream/${encodeURIComponent(filename)}?manual_count=${count}`);
+            
+            eventSource.onmessage = (e) => {
+                if (e.data.includes("SUCCESS:")) {
+                    const pdf = e.data.split(":")[1];
+                    eventSource.close();
+                    header.textContent = "✅ DONE!";
+                    document.getElementById('finalDownload').href = `/download/${pdf}`;
+                    document.getElementById('downloadArea').style.display = 'block';
+                    window.location.href = `/download/${pdf}`;
+                } else {
+                    // Update Dynamic Summary Header
+                    if (e.data.includes("Solving problem")) {
+                        header.textContent = "📊 Progress: " + e.data.split("✍️")[1];
+                    }
+                    consoleDiv.innerHTML += e.data + "<br>";
+                    // Auto-scroll logic
+                    consoleDiv.scrollTop = consoleDiv.scrollHeight;
+                }
+            };
+        }
+
+        document.getElementById('expressBtn').onclick = async () => {
+            if (!document.getElementById('fileInput').files[0]) return alert("Select a file!");
+            const formData = new FormData();
+            formData.append('file', document.getElementById('fileInput').files[0]);
+            const res = await fetch('/upload_full', { method: 'POST', body: formData });
+            const { filename } = await res.json();
+            startStream(filename, "");
+        };
+
+        document.getElementById('solveBatch').onclick = async () => {
+            const res = await fetch('/upload_batch', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ images: cropQueue, original_name: document.getElementById('fileInput').files[0].name })
+            });
+            const { filenames } = await res.json();
+            startStream(filenames, document.getElementById('manualCount').value);
+        };
+    </script>
 </body>
 </html>

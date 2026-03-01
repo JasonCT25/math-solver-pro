@@ -1,0 +1,1629 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, geometry, setspace}
+\geometry{a4paper, margin=1in}
+\onehalfspacing
+\begin{document}
+\title{discrete crop Solutions}
+\maketitle
+\section*{Problem 1}
+The problem asks to fill in the blanks for question 1 of the "Test Yourself" section. The question is about the quotient-remainder theorem.
+
+The quotient-remainder theorem states that for any integers $n$ and $d$ with $d > 0$, there exist unique integers $q$ (quotient) and $r$ (remainder) such that $n = dq + r$ and $0 \le r < d$.
+
+The question states: "1. The quotient-remainder theorem says that for all integers $n$ and $d$ with $d \ge 0$, there exist \_\_\_\_\_\_\_ $q$ and $r$ such that \_\_\_\_\_\_\_ and \_\_\_\_\_\_\_."
+
+Based on the theorem statement:
+- The theorem guarantees the existence of *unique* integers $q$ and $r$.
+- The equation that relates $n$, $d$, $q$, and $r$ is $n = dq + r$.
+- The condition on the remainder is $0 \le r < d$.
+
+Therefore, the blanks should be filled as follows:
+- The first blank should be "unique".
+- The second blank should be "$n = dq + r$".
+- The third blank should be "$0 \le r < d$".
+
+So the completed statement is: "The quotient-remainder theorem says that for all integers $n$ and $d$ with $d \ge 0$, there exist unique $q$ and $r$ such that $n = dq + r$ and $0 \le r < d$."
+
+The final answer is $\boxed{\text{unique, } n = dq + r, 0 \le r < d}$.
+
+\newpage
+
+\section*{Problem 2}
+2. If $n$ and $d$ are integers with $d > 0$, $n \operatorname{div} d$ is the quotient and $n \pmod{d}$ is the remainder.
+
+This statement means that when an integer $n$ is divided by a positive integer $d$, the result can be expressed in terms of a quotient and a remainder. The quotient is the integer part of the division, and the remainder is what is left over. The quotient-remainder theorem formally states that for any integers $n$ and $d$ with $d > 0$, there exist unique integers $q$ (quotient) and $r$ (remainder) such that $n = dq + r$ and $0 \le r < d$.
+
+The notation $n \operatorname{div} d$ represents the quotient $q$, and $n \pmod{d}$ represents the remainder $r$.
+
+Therefore, if $n$ and $d$ are integers with $d > 0$, $n \operatorname{div} d$ is the quotient and $n \pmod{d}$ is the remainder.
+
+\newpage
+
+\section*{Problem 3}
+Here's the solution to problem 3.
+
+Problem 3 is not present in the provided image. The problems in the image are numbered from 27 to 47. Therefore, I cannot provide a solution for problem 3.
+
+\newpage
+
+\section*{Problem 3}
+The parity of an integer indicates whether the integer is **even** or **odd**.
+
+This is a definition-based question. The parity of an integer refers to its property of being either divisible by 2 (even) or not divisible by 2 (odd).
+
+\newpage
+
+\section*{Problem 4}
+Here's the solution to problem 4, which is not explicitly stated but seems to be implied by the context of "problem 4" referring to the numbered questions. Assuming "problem 4" refers to question 41, as it's the first numbered question on the right side and no other "problem 4" is identified:
+
+**Problem 41.** For all integers $m$, $m^2 = 5k$, or $m^2 = 5k+1$, or $m^2 = 5k+4$ for some integer $k$.
+
+**Solution:**
+
+To prove this statement, we will consider all possible remainders of an integer $m$ when divided by 5. According to the quotient-remainder theorem, any integer $m$ can be written in one of the following forms for some integer $q$:
+$m = 5q$, $m = 5q+1$, $m = 5q+2$, $m = 5q+3$, or $m = 5q+4$.
+
+We will square each of these forms and show that the result can be expressed in the form $5k$, $5k+1$, or $5k+4$ for some integer $k$.
+
+Case 1: $m = 5q$
+\begin{align*} m^2 &= (5q)^2 \\ &= 25q^2 \\ &= 5(5q^2)\end{align*}
+Let $k = 5q^2$. Since $q$ is an integer, $q^2$ is an integer, and $5q^2$ is an integer. Thus, $m^2 = 5k$.
+
+Case 2: $m = 5q+1$
+\begin{align*} m^2 &= (5q+1)^2 \\ &= (5q)^2 + 2(5q)(1) + 1^2 \\ &= 25q^2 + 10q + 1 \\ &= 5(5q^2 + 2q) + 1\end{align*}
+Let $k = 5q^2 + 2q$. Since $q$ is an integer, $5q^2$, $2q$, and their sum are integers. Thus, $m^2 = 5k+1$.
+
+Case 3: $m = 5q+2$
+\begin{align*} m^2 &= (5q+2)^2 \\ &= (5q)^2 + 2(5q)(2) + 2^2 \\ &= 25q^2 + 20q + 4 \\ &= 5(5q^2 + 4q) + 4\end{align*}
+Let $k = 5q^2 + 4q$. Since $q$ is an integer, $5q^2$, $4q$, and their sum are integers. Thus, $m^2 = 5k+4$.
+
+Case 4: $m = 5q+3$
+\begin{align*} m^2 &= (5q+3)^2 \\ &= (5q)^2 + 2(5q)(3) + 3^2 \\ &= 25q^2 + 30q + 9 \\ &= 25q^2 + 30q + 5 + 4 \\ &= 5(5q^2 + 6q + 1) + 4\end{align*}
+Let $k = 5q^2 + 6q + 1$. Since $q$ is an integer, $5q^2$, $6q$, $1$, and their sum are integers. Thus, $m^2 = 5k+4$.
+
+Case 5: $m = 5q+4$
+\begin{align*} m^2 &= (5q+4)^2 \\ &= (5q)^2 + 2(5q)(4) + 4^2 \\ &= 25q^2 + 40q + 16 \\ &= 25q^2 + 40q + 15 + 1 \\ &= 5(5q^2 + 8q + 3) + 1\end{align*}
+Let $k = 5q^2 + 8q + 3$. Since $q$ is an integer, $5q^2$, $8q$, $3$, and their sum are integers. Thus, $m^2 = 5k+1$.
+
+In all possible cases, the square of an integer $m$ is of the form $5k$, $5k+1$, or $5k+4$ for some integer $k$. Therefore, the statement is proven.
+
+\newpage
+
+\section*{Problem 4}
+4. According to the quotient-remainder theorem, if an integer $n$ is divided by a positive integer $d$, the possible remainders are $0, 1, 2, \dots, d-1$. This implies that $n$ can be written in one of the forms $dq$, $dq+1$, $dq+2$, \dots, $dq+(d-1)$ for some integer $q$.
+
+\newpage
+
+\section*{Problem 4}
+The problem is not numbered 4 in the image. Assuming you mean problem 47, here is the solution:
+
+Problem 47 asks us to consider a matrix $\mathbf{M}$ with 3 rows and 4 columns, where the entries are stored in row-major order in memory locations 7,609 to 7,620.
+
+The matrix is given by:
+$$
+\mathbf{M} = \begin{bmatrix}
+a_{11} & a_{12} & a_{13} & a_{14} \\
+a_{21} & a_{22} & a_{23} & a_{24} \\
+a_{31} & a_{32} & a_{33} & a_{34}
+\end{bmatrix}
+$$
+
+The entries are stored in row-major order, meaning the first row is stored completely, followed by the second row, and then the third row.
+
+The memory locations are from 7,609 to 7,620. This means there are $7620 - 7609 + 1 = 12$ memory locations, which matches the number of entries in a $3 \times 4$ matrix.
+
+**Part a: Which location will $a_{22}$ be stored in?**
+
+In row-major order:
+\begin{itemize}
+    \item The first row ($a_{11}, a_{12}, a_{13}, a_{14}$) occupies the first 4 locations.
+    \item The second row ($a_{21}, a_{22}, a_{23}, a_{24}$) occupies the next 4 locations.
+    \item The third row ($a_{31}, a_{32}, a_{33}, a_{34}$) occupies the last 4 locations.
+\end{itemize}
+
+Let's assign the memory locations starting from 7,609.
+\begin{itemize}
+    \item $a_{11}$ is in location 7,609.
+    \item $a_{12}$ is in location 7,610.
+    \item $a_{13}$ is in location 7,611.
+    \item $a_{14}$ is in location 7,612.
+\end{itemize}
+The first row ends at location $7609 + 4 - 1 = 7612$.
+
+Now, for the second row:
+\begin{itemize}
+    \item $a_{21}$ is in location 7,613.
+    \item $a_{22}$ is in location 7,614.
+    \item $a_{23}$ is in location 7,615.
+    \item $a_{24}$ is in location 7,616.
+\end{itemize}
+Therefore, $a_{22}$ will be stored in location 7,614.
+
+**Part b: Write a formula (in $i$ and $j$) that gives the integer $n$ so that $a_{ij}$ is stored in location $7,609 + n$.**
+
+Let the matrix have $R$ rows and $C$ columns. In this case, $R=3$ and $C=4$.
+The starting memory location is $L_{start} = 7609$.
+The entry $a_{ij}$ is in row $i$ and column $j$, where $1 \le i \le R$ and $1 \le j \le C$.
+
+In row-major order, the number of elements in the preceding rows is $(i-1) \times C$.
+Within the current row $i$, the element $a_{ij}$ is the $j$-th element.
+So, the position of $a_{ij}$ from the beginning of the matrix (0-indexed) is $(i-1) \times C + (j-1)$.
+
+The memory location for $a_{ij}$ is $L_{start} + \text{offset}$.
+The offset from the start is $(i-1) \times C + (j-1)$.
+
+So, the memory location for $a_{ij}$ is $7609 + (i-1) \times C + (j-1)$.
+
+We are given that the memory location is $7609 + n$.
+Therefore, $7609 + n = 7609 + (i-1) \times C + (j-1)$.
+This implies $n = (i-1) \times C + (j-1)$.
+
+For this problem, $C=4$.
+So, the formula for $n$ is:
+$$ n = (i-1) \times 4 + (j-1) $$
+$$ n = 4(i-1) + (j-1) $$
+
+Let's verify this with $a_{22}$. Here $i=2$ and $j=2$.
+$n = 4(2-1) + (2-1) = 4(1) + 1 = 4 + 1 = 5$.
+The location is $7609 + n = 7609 + 5 = 7614$. This matches the result from part a.
+
+The final answer is $\boxed{n = 4(i-1) + (j-1)}$.
+
+\newpage
+
+\section*{Problem 5}
+Here is the solution to problem 5:
+
+Problem 5 asks us to prove that for all real numbers $r$ and $c$ with $c \ge 0$, if $-c \le r \le c$, then $|r| \le c$.
+
+We will use the definition of the absolute value:
+$|r| = \begin{cases} r & \text{if } r \ge 0 \\ -r & \text{if } r < 0 \end{cases}$
+
+We are given that $-c \le r \le c$ and $c \ge 0$. We need to show that $|r| \le c$. We consider two cases based on the sign of $r$.
+
+Case 1: $r \ge 0$.
+If $r \ge 0$, then by the definition of absolute value, $|r| = r$.
+From the given inequality, we have $r \le c$.
+Therefore, $|r| = r \le c$.
+
+Case 2: $r < 0$.
+If $r < 0$, then by the definition of absolute value, $|r| = -r$.
+From the given inequality, we have $-c \le r$.
+Multiplying both sides of this inequality by $-1$, we reverse the inequality sign:
+$c \ge -r$.
+Therefore, $|r| = -r \le c$.
+
+In both cases, we have shown that $|r| \le c$. Thus, for all real numbers $r$ and $c$ with $c \ge 0$, if $-c \le r \le c$, then $|r| \le c$.
+
+\newpage
+
+\section*{Problem 5}
+To prove a statement of the form "If $A_1$ or $A_2$ or $A_3$, then $C$", we need to consider three cases. In each case, we assume one of the conditions ($A_1$, $A_2$, or $A_3$) is true and then prove that $C$ must also be true.
+
+**Case 1: Assume $A_1$ is true.**
+If $A_1$ is true, then by the properties of logical implication, the statement "If $A_1$, then $C$" holds.
+
+**Case 2: Assume $A_2$ is true.**
+If $A_2$ is true, then by the properties of logical implication, the statement "If $A_2$, then $C$" holds.
+
+**Case 3: Assume $A_3$ is true.**
+If $A_3$ is true, then by the properties of logical implication, the statement "If $A_3$, then $C$" holds.
+
+Since we have shown that $C$ is true whenever $A_1$ is true, or whenever $A_2$ is true, or whenever $A_3$ is true, we can conclude that if "$A_1$ or $A_2$ or $A_3$" is true, then $C$ must be true.
+
+Therefore, to prove a statement of the form "If $A_1$ or $A_2$ or $A_3$, then $C$", we must prove **$A_1 \implies C$**, **$A_2 \implies C$**, and **$A_3 \implies C$**.
+
+\newpage
+
+\section*{Problem 5}
+The problem asks to prove that for all real numbers $x$ and $y$, $|x| \cdot |y| = |xy|$.
+
+We will consider the different cases for the signs of $x$ and $y$.
+
+Case 1: $x \ge 0$ and $y \ge 0$.
+In this case, $|x| = x$ and $|y| = y$.
+Also, $xy \ge 0$, so $|xy| = xy$.
+Therefore, $|x| \cdot |y| = x \cdot y = xy = |xy|$.
+
+Case 2: $x < 0$ and $y \ge 0$.
+In this case, $|x| = -x$ and $|y| = y$.
+Also, $xy \le 0$, so $|xy| = -(xy) = -xy$.
+Therefore, $|x| \cdot |y| = (-x) \cdot y = -xy = |xy|$.
+
+Case 3: $x \ge 0$ and $y < 0$.
+In this case, $|x| = x$ and $|y| = -y$.
+Also, $xy \le 0$, so $|xy| = -(xy) = -xy$.
+Therefore, $|x| \cdot |y| = x \cdot (-y) = -xy = |xy|$.
+
+Case 4: $x < 0$ and $y < 0$.
+In this case, $|x| = -x$ and $|y| = -y$.
+Also, $xy > 0$, so $|xy| = xy$.
+Therefore, $|x| \cdot |y| = (-x) \cdot (-y) = xy = |xy|$.
+
+In all four cases, we have shown that $|x| \cdot |y| = |xy|$.
+Therefore, the property $|x| \cdot |y| = |xy|$ holds for all real numbers $x$ and $y$.
+
+The final answer is $\boxed{|x| \cdot |y| = |xy|}$.
+
+\newpage
+
+\section*{Problem 6}
+Let's solve problem 27 from the image.
+
+**Problem 27:** Show that any integer $n$ can be written in one of the three forms $n=3q$ or $n=3q+1$ or $n=3q+2$ for some integer $q$.
+
+**Solution:**
+
+We will use the Division Algorithm, which states that for any integers $a$ and $b$ with $b > 0$, there exist unique integers $q$ (quotient) and $r$ (remainder) such that $a = bq + r$ and $0 \le r < b$.
+
+In this problem, we are considering any integer $n$. We want to show that $n$ can be expressed in one of the forms $3q$, $3q+1$, or $3q+2$. This means we can apply the Division Algorithm with the divisor $b=3$.
+
+According to the Division Algorithm, when an integer $n$ is divided by $3$, there exist unique integers $q$ and $r$ such that:
+$$n = 3q + r$$
+where $0 \le r < 3$.
+
+The possible values for the remainder $r$ are $0$, $1$, and $2$. Let's consider each case:
+
+**Case 1: $r = 0$**
+If the remainder $r$ is $0$, then the equation becomes:
+$$n = 3q + 0$$
+$$n = 3q$$
+This is the first form stated in the problem.
+
+**Case 2: $r = 1$**
+If the remainder $r$ is $1$, then the equation becomes:
+$$n = 3q + 1$$
+This is the second form stated in the problem.
+
+**Case 3: $r = 2$**
+If the remainder $r$ is $2$, then the equation becomes:
+$$n = 3q + 2$$
+This is the third form stated in the problem.
+
+Since the remainder $r$ must be one of $0$, $1$, or $2$ when dividing an integer by $3$, any integer $n$ must fall into one of these three cases. Therefore, any integer $n$ can be written in one of the forms $n=3q$, $n=3q+1$, or $n=3q+2$ for some integer $q$.
+
+$\boxed{n=3q \text{ or } n=3q+1 \text{ or } n=3q+2}$
+
+\newpage
+
+\section*{Problem 6}
+Problem 6 asks to complete the statement of the triangle inequality.
+
+The triangle inequality states that for all real numbers $x$ and $y$, the absolute value of their sum is less than or equal to the sum of their absolute values.
+
+The statement in the image is: "The triangle inequality says that for all real numbers $x$ and \_\_\_\_\_\_\_\_\_\_\_\_, \_\_\_\_\_\_\_\_\_\_\_\_ $\le$ \_\_\_\_\_\_\_\_\_\_\_\_ + \_\_\_\_\_\_\_\_\_\_\_\_."
+
+Based on the definition of the triangle inequality, we can fill in the blanks:
+
+The triangle inequality says that for all real numbers $x$ and $y$, $|x + y| \le |x| + |y|$.
+
+Therefore, the completed statement is:
+
+The triangle inequality says that for all real numbers $x$ and $y$, $|x+y| \le |x| + |y|$.
+
+\newpage
+
+\section*{Problem 6}
+Here is the solution to problem 47:
+
+**Problem 47:** A matrix $M$ has 3 rows and 4 columns.
+$$
+\begin{bmatrix}
+a_{11} & a_{12} & a_{13} & a_{14} \\
+a_{21} & a_{22} & a_{23} & a_{24} \\
+a_{31} & a_{32} & a_{33} & a_{34}
+\end{bmatrix}
+$$
+The 12 entries in the matrix are to be stored in row major form in locations 7,609 to 7,620 in a computer's memory. This means that the entries in the first row (reading left to right) are stored first, then the entries in the second row, and finally the entries in the third row.
+
+**a. Which location will $a_{22}$ be stored in?**
+
+In row major order, the elements are stored row by row. The first row has 4 elements. The second row starts after the first row is completely stored.
+
+The elements of the first row are $a_{11}, a_{12}, a_{13}, a_{14}$.
+These will be stored in locations 7609, 7610, 7611, 7612 respectively.
+
+The element $a_{21}$ is the first element of the second row. It will be stored immediately after the last element of the first row.
+Location of $a_{14}$ is 7612.
+So, the location of $a_{21}$ is $7612 + 1 = 7613$.
+
+The element $a_{22}$ is the second element of the second row.
+The elements of the second row are $a_{21}, a_{22}, a_{23}, a_{24}$.
+The location of $a_{22}$ will be one position after the location of $a_{21}$.
+
+Therefore, the location of $a_{22}$ is $7613 + 1 = 7614$.
+
+**Answer to a:** $a_{22}$ will be stored in location 7614.
+
+**b. Write a formula (in $i$ and $j$) that gives the integer $n$ so that $a_{ij}$ is stored in location $7,609 + n$.**
+
+Let the matrix have $R$ rows and $C$ columns. In this case, $R=3$ and $C=4$.
+The total number of elements before the start of row $i$ is $(i-1) \times C$.
+The position of the element $a_{ij}$ within its row is $j$.
+Since the storage starts at location 7609, and the index $n$ is such that the location is $7609 + n$, we can think of $n$ as a 0-based index from the start of the memory block.
+
+The number of elements before row $i$ is $(i-1) \times C$.
+The position of $a_{ij}$ in the overall sequence of elements (starting from $a_{11}$ at index 0) is:
+Number of elements in previous rows + position within the current row (0-indexed).
+Position within the current row (0-indexed) = $j-1$.
+
+So, the 0-indexed position of $a_{ij}$ is $(i-1) \times C + (j-1)$.
+
+The problem states that $a_{ij}$ is stored in location $7,609 + n$.
+This means that $7,609 + n$ is the absolute memory location.
+
+Let's find the relationship between the 0-indexed position and the memory location.
+The first element $a_{11}$ is at location 7609. Its 0-indexed position is $(1-1) \times 4 + (1-1) = 0$.
+So, the memory location = Start Location + 0-indexed position.
+Memory Location = $7609 + ((i-1) \times C + (j-1))$.
+
+We are given that the location is $7,609 + n$.
+Comparing the two expressions for the memory location:
+$7,609 + n = 7609 + ((i-1) \times C + (j-1))$
+
+This implies:
+$n = (i-1) \times C + (j-1)$
+
+Given $C=4$:
+$n = (i-1) \times 4 + (j-1)$
+
+Let's verify with $a_{22}$:
+For $a_{22}$, $i=2$ and $j=2$.
+$n = (2-1) \times 4 + (2-1) = 1 \times 4 + 1 = 4 + 1 = 5$.
+The location of $a_{22}$ should be $7609 + n = 7609 + 5 = 7614$. This matches our previous result.
+
+Let's verify with $a_{11}$:
+For $a_{11}$, $i=1$ and $j=1$.
+$n = (1-1) \times 4 + (1-1) = 0 \times 4 + 0 = 0$.
+The location is $7609 + 0 = 7609$. Correct.
+
+Let's verify with $a_{14}$:
+For $a_{14}$, $i=1$ and $j=4$.
+$n = (1-1) \times 4 + (4-1) = 0 \times 4 + 3 = 3$.
+The location is $7609 + 3 = 7612$. Correct.
+
+Let's verify with $a_{34}$:
+For $a_{34}$, $i=3$ and $j=4$.
+$n = (3-1) \times 4 + (4-1) = 2 \times 4 + 3 = 8 + 3 = 11$.
+The location is $7609 + 11 = 7620$. Correct, as the locations are from 7609 to 7620 (12 locations).
+
+The formula for $n$ in terms of $i$ and $j$ is:
+$$
+n = (i-1)C + (j-1)
+$$
+where $C$ is the number of columns in the matrix.
+In this specific problem, $C=4$.
+
+So, the formula is:
+$$
+n = 4(i-1) + (j-1)
+$$
+
+**Answer to b:** The formula for $n$ is $n = 4(i-1) + (j-1)$.
+
+\newpage
+
+\section*{Problem 7}
+There is no problem numbered 7 in the provided image. The problems are numbered from 1 to 6 in the "Test Yourself" section, and from 1 to 6, and then 17 and 18 in the "Exercise Set 4.4" section.
+
+\newpage
+
+\section*{Problem 7}
+The problem numbering in the image starts from 27. There is no problem labeled 7. Assuming you meant problem 27, here's the solution:
+
+**Problem 27.** Show that any integer $n$ can be written in one of the three forms $n = 3q$ or $n = 3q + 1$ or $n = 3q + 2$ for some integer $q$.
+
+**Solution:**
+
+We will use the Quotient-Remainder Theorem. The Quotient-Remainder Theorem states that for any integers $a$ and $b$ with $b > 0$, there exist unique integers $q$ and $r$ such that $a = bq + r$ and $0 \le r < b$.
+
+In this problem, we want to show that any integer $n$ can be written in one of the given forms. Let $n$ be any integer and let $b=3$. According to the Quotient-Remainder Theorem, there exist unique integers $q$ and $r$ such that:
+\begin{align*} n = 3q + r \end{align*}
+and $0 \le r < 3$.
+
+The possible values for the remainder $r$ are $0$, $1$, and $2$. We will consider each case for $r$:
+
+**Case 1: $r = 0$**
+If $r = 0$, then the equation becomes:
+\begin{align*} n = 3q + 0 \end{align*}
+\begin{align*} n = 3q \end{align*}
+This is one of the forms stated in the problem.
+
+**Case 2: $r = 1$**
+If $r = 1$, then the equation becomes:
+\begin{align*} n = 3q + 1 \end{align*}
+This is another form stated in the problem.
+
+**Case 3: $r = 2$**
+If $r = 2$, then the equation becomes:
+\begin{align*} n = 3q + 2 \end{align*}
+This is the third form stated in the problem.
+
+Since these are the only possible values for the remainder $r$ when dividing an integer by 3, any integer $n$ must be representable in one of these three forms for some integer $q$. Therefore, any integer $n$ can be written in one of the forms $n = 3q$, $n = 3q + 1$, or $n = 3q + 2$ for some integer $q$.
+
+\newpage
+
+\section*{Problem 7}
+Here's the solution to problem 41:
+
+**Problem 41:** For all integers $m$, $m^2 = 5k$, or $m^2 = 5k+1$, or $m^2 = 5k+4$ for some integer $k$.
+
+**Solution:**
+
+We will consider the possible remainders when an integer $m$ is divided by 5. According to the Division Algorithm, for any integer $m$ and a positive integer $d$, there exist unique integers $q$ and $r$ such that $m = dq + r$ and $0 \le r < d$. In this case, $d=5$, so $m$ can be written in one of the following forms: $5q$, $5q+1$, $5q+2$, $5q+3$, or $5q+4$ for some integer $q$.
+
+Now, we will examine the square of $m$ for each of these cases.
+
+Case 1: $m = 5q$
+\begin{align*} m^2 &= (5q)^2 \\ &= 25q^2 \\ &= 5(5q^2) \end{align*}
+Let $k = 5q^2$. Since $q$ is an integer, $q^2$ is an integer, and $5q^2$ is also an integer. Thus, $m^2 = 5k$ for some integer $k$.
+
+Case 2: $m = 5q+1$
+\begin{align*} m^2 &= (5q+1)^2 \\ &= (5q)^2 + 2(5q)(1) + 1^2 \\ &= 25q^2 + 10q + 1 \\ &= 5(5q^2 + 2q) + 1 \end{align*}
+Let $k = 5q^2 + 2q$. Since $q$ is an integer, $5q^2 + 2q$ is an integer. Thus, $m^2 = 5k+1$ for some integer $k$.
+
+Case 3: $m = 5q+2$
+\begin{align*} m^2 &= (5q+2)^2 \\ &= (5q)^2 + 2(5q)(2) + 2^2 \\ &= 25q^2 + 20q + 4 \\ &= 5(5q^2 + 4q) + 4 \end{align*}
+Let $k = 5q^2 + 4q$. Since $q$ is an integer, $5q^2 + 4q$ is an integer. Thus, $m^2 = 5k+4$ for some integer $k$.
+
+Case 4: $m = 5q+3$
+\begin{align*} m^2 &= (5q+3)^2 \\ &= (5q)^2 + 2(5q)(3) + 3^2 \\ &= 25q^2 + 30q + 9 \\ &= 25q^2 + 30q + 5 + 4 \\ &= 5(5q^2 + 6q + 1) + 4 \end{align*}
+Let $k = 5q^2 + 6q + 1$. Since $q$ is an integer, $5q^2 + 6q + 1$ is an integer. Thus, $m^2 = 5k+4$ for some integer $k$.
+
+Case 5: $m = 5q+4$
+\begin{align*} m^2 &= (5q+4)^2 \\ &= (5q)^2 + 2(5q)(4) + 4^2 \\ &= 25q^2 + 40q + 16 \\ &= 25q^2 + 40q + 15 + 1 \\ &= 5(5q^2 + 8q + 3) + 1 \end{align*}
+Let $k = 5q^2 + 8q + 3$. Since $q$ is an integer, $5q^2 + 8q + 3$ is an integer. Thus, $m^2 = 5k+1$ for some integer $k$.
+
+In summary, for any integer $m$, its square $m^2$ will have a remainder of 0, 1, or 4 when divided by 5. Therefore, $m^2$ can be written in the form $5k$, $5k+1$, or $5k+4$ for some integer $k$.
+
+\newpage
+
+\section*{Problem 8}
+The problem asks to solve problem 8 from the provided image. However, there is no problem labeled as '8' in the image. The problems are numbered from 1 to 6 in the "Test Yourself" section and from 1 to 6 and then 17 and 18 in the "Exercise Set 4.4" section.
+
+Assuming there might be a typo and you intended to ask for one of the problems that are present, please specify which problem you would like me to solve.
+
+If you meant to ask for one of the calculation problems from "Exercise Set 4.4", for example, problem 1:
+**1. $n = 70, d = 9$**
+
+We need to find integers $q$ and $r$ such that $n = dq + r$ and $0 \leq r < d$.
+
+We want to find $q$ and $r$ for $n=70$ and $d=9$.
+We can perform division:
+$70 \div 9$
+
+$70 = 9 \times 7 + 7$
+
+Here, $q = 7$ and $r = 7$.
+We check the condition for $r$: $0 \leq 7 < 9$. This condition is satisfied.
+
+Thus, for $n = 70$ and $d = 9$, the integers are $q = 7$ and $r = 7$.
+
+If you meant to ask for one of the theoretical questions, please specify the number.
+
+\newpage
+
+\section*{Problem 8}
+Here's the solution to problem 28:
+
+**Problem 28. a. Use the quotient-remainder theorem with $d=3$ to prove that the product of any three consecutive integers is divisible by 3.**
+
+**Solution:**
+
+Let the three consecutive integers be $n$, $n+1$, and $n+2$.
+According to the quotient-remainder theorem, any integer $n$ can be written in one of the following forms for some integer $q$:
+\begin{itemize}
+    \item $n = 3q$
+    \item $n = 3q + 1$
+    \item $n = 3q + 2$
+\end{itemize}
+
+We will consider each case:
+
+**Case 1: $n = 3q$**
+If $n = 3q$, then the product of the three consecutive integers is:
+$n(n+1)(n+2) = (3q)(3q+1)(3q+2)$
+This product is clearly divisible by 3 because one of the factors is $3q$.
+
+**Case 2: $n = 3q + 1$**
+If $n = 3q + 1$, then $n+2 = (3q + 1) + 2 = 3q + 3 = 3(q+1)$.
+The product of the three consecutive integers is:
+$n(n+1)(n+2) = (3q+1)(3q+1+1)(3q+3)$
+$n(n+1)(n+2) = (3q+1)(3q+2)(3(q+1))$
+This product is divisible by 3 because one of the factors is $3(q+1)$.
+
+**Case 3: $n = 3q + 2$**
+If $n = 3q + 2$, then $n+1 = (3q + 2) + 1 = 3q + 3 = 3(q+1)$.
+The product of the three consecutive integers is:
+$n(n+1)(n+2) = (3q+2)(3q+3)(3q+2+2)$
+$n(n+1)(n+2) = (3q+2)(3(q+1))(3q+4)$
+This product is divisible by 3 because one of the factors is $3(q+1)$.
+
+In all possible cases, the product of three consecutive integers is divisible by 3.
+
+**b. Use the mod notation to rewrite the result of part (a).**
+
+**Solution:**
+
+From part (a), we proved that the product of any three consecutive integers is divisible by 3. This means that the remainder when the product is divided by 3 is 0.
+Using mod notation, this can be written as:
+$$ n(n+1)(n+2) \equiv 0 \pmod{3} $$
+for any integer $n$.
+
+\newpage
+
+\section*{Problem 8}
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\begin{document}
+
+\begin{problem}
+Show that any integer $n$ can be written in one of the three forms $n=3q$ or $n=3q+1$ or $n=3q+2$ for some integer $q$.
+\end{problem}
+\begin{solution}
+We will use the Quotient-Remainder Theorem, which states that for any integers $n$ and $d$ with $d > 0$, there exist unique integers $q$ and $r$ such that $n = dq + r$ and $0 \le r < d$.
+
+In this case, we are considering an arbitrary integer $n$ and we want to show it can be written in one of the three forms. This implies we are dividing $n$ by $3$. So, we set $d = 3$.
+According to the Quotient-Remainder Theorem, there exist unique integers $q$ (the quotient) and $r$ (the remainder) such that:
+$$n = 3q + r$$
+where $0 \le r < 3$.
+
+The possible values for the remainder $r$ are $0$, $1$, and $2$. We will consider each case:
+
+\textbf{Case 1: The remainder is $r=0$.}
+If $r=0$, then the equation becomes:
+$$n = 3q + 0$$
+$$n = 3q$$
+This is one of the forms specified in the problem.
+
+\textbf{Case 2: The remainder is $r=1$.}
+If $r=1$, then the equation becomes:
+$$n = 3q + 1$$
+This is another of the forms specified in the problem.
+
+\textbf{Case 3: The remainder is $r=2$.}
+If $r=2$, then the equation becomes:
+$$n = 3q + 2$$
+This is the third form specified in the problem.
+
+Since these are the only possible values for the remainder when dividing an integer by $3$, any integer $n$ must fall into one of these three categories. Therefore, any integer $n$ can be written in one of the forms $n=3q$, $n=3q+1$, or $n=3q+2$ for some integer $q$.
+\end{solution}
+
+\end{document}
+
+\newpage
+
+\section*{Problem 9}
+The problem statement asks to solve problem 9 from the provided image. However, there is no problem numbered 9 in the image. The problems listed in "Exercise Set 4.4" are numbered from 1 to 6, and then there are problems 17 and 18. The "Test Yourself" section has problems numbered 1 to 6.
+
+Assuming there's a typo and the user meant one of the problems that involves calculation of q and r, I will assume the user intended to ask for one of the problems in "Exercise Set 4.4". I will pick the first problem as an example.
+
+**Problem 1 (from Exercise Set 4.4):** For each of the values of $n$ and $d$ given in 1-6, find integers $q$ and $r$ such that $n = dq + r$ and $0 \le r < d$.
+Given: $n = 70$, $d = 9$.
+
+We need to find integers $q$ (quotient) and $r$ (remainder) such that $70 = 9q + r$ and $0 \le r < 9$.
+
+We can perform division to find $q$ and $r$.
+
+Divide 70 by 9:
+$70 \div 9$
+
+We are looking for the largest multiple of 9 that is less than or equal to 70.
+$9 \times 1 = 9$
+$9 \times 2 = 18$
+$9 \times 3 = 27$
+$9 \times 4 = 36$
+$9 \times 5 = 45$
+$9 \times 6 = 54$
+$9 \times 7 = 63$
+$9 \times 8 = 72$
+
+The largest multiple of 9 that is less than or equal to 70 is 63, which corresponds to $q=7$.
+
+Now, we can find the remainder $r$ using the equation $n = dq + r$:
+$70 = 9 \times 7 + r$
+$70 = 63 + r$
+
+Subtract 63 from both sides to solve for $r$:
+$r = 70 - 63$
+$r = 7$
+
+We need to check if the condition $0 \le r < d$ is satisfied.
+Here, $r = 7$ and $d = 9$.
+$0 \le 7 < 9$. This condition is satisfied.
+
+Thus, for $n=70$ and $d=9$, the integers are $q=7$ and $r=7$.
+
+The equation is:
+$$70 = 9 \cdot 7 + 7$$
+
+The final answer is $\boxed{q=7, r=7}$.
+
+\newpage
+
+\section*{Problem 9}
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\begin{document}
+\setlength{\parskip}{10pt}
+
+\noindent \textbf{H 29.} a. Use the quotient-remainder theorem with $d=3$ to prove that the square of any integer has the form $3k$ or $3k+1$ for some integer $k$.
+
+\noindent \textbf{Solution:}
+By the quotient-remainder theorem, any integer $n$ can be written in one of the following forms:
+\begin{align*}
+n &= 3q \\
+n &= 3q + 1 \\
+n &= 3q + 2
+\end{align*}
+where $q$ is an integer. We will consider the square of $n$ for each of these cases.
+
+\textbf{Case 1: $n = 3q$}
+If $n = 3q$, then the square of $n$ is:
+\begin{align*}
+n^2 &= (3q)^2 \\
+n^2 &= 9q^2 \\
+n^2 &= 3(3q^2)
+\end{align*}
+Let $k = 3q^2$. Since $q$ is an integer, $q^2$ is an integer, and $3q^2$ is also an integer. Thus, $n^2$ is of the form $3k$.
+
+\textbf{Case 2: $n = 3q + 1$}
+If $n = 3q + 1$, then the square of $n$ is:
+\begin{align*}
+n^2 &= (3q + 1)^2 \\
+n^2 &= (3q)^2 + 2(3q)(1) + 1^2 \\
+n^2 &= 9q^2 + 6q + 1 \\
+n^2 &= 3(3q^2 + 2q) + 1
+\end{align*}
+Let $k = 3q^2 + 2q$. Since $q$ is an integer, $q^2$ is an integer, and $3q^2 + 2q$ is also an integer. Thus, $n^2$ is of the form $3k+1$.
+
+\textbf{Case 3: $n = 3q + 2$}
+If $n = 3q + 2$, then the square of $n$ is:
+\begin{align*}
+n^2 &= (3q + 2)^2 \\
+n^2 &= (3q)^2 + 2(3q)(2) + 2^2 \\
+n^2 &= 9q^2 + 12q + 4 \\
+n^2 &= 9q^2 + 12q + 3 + 1 \\
+n^2 &= 3(3q^2 + 4q + 1) + 1
+\end{align*}
+Let $k = 3q^2 + 4q + 1$. Since $q$ is an integer, $q^2$ is an integer, and $3q^2 + 4q + 1$ is also an integer. Thus, $n^2$ is of the form $3k+1$.
+
+In all three possible cases for $n$, the square of $n$ is either of the form $3k$ or $3k+1$ for some integer $k$.
+
+\noindent b. Use the mod notation to rewrite the result of part (a).
+
+\noindent \textbf{Solution:}
+The result of part (a) states that the square of any integer $n$ has the form $3k$ or $3k+1$ for some integer $k$. This means that when $n^2$ is divided by 3, the remainder is either 0 or 1. In terms of modular arithmetic, this can be written as:
+\begin{align*}
+n^2 \equiv 0 \pmod{3} \quad \text{or} \quad n^2 \equiv 1 \pmod{3}
+\end{align*}
+This can be concisely expressed as:
+\begin{align*}
+n^2 \equiv 0, 1 \pmod{3}
+\end{align*}
+
+\end{document}
+
+\newpage
+
+\section*{Problem 9}
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{enumerate}[label=\arabic*., itemsep=10pt]
+    \item Consider the problem statement and any constraints. The problem asks to prove that any integer $n$ can be written in one of the three forms: $n = 3q$, $n = 3q + 1$, or $n = 3q + 2$, for some integer $q$.
+
+    \item Recall the Quotient-Remainder Theorem. The Quotient-Remainder Theorem states that for any integers $a$ (dividend) and $d$ (divisor) with $d > 0$, there exist unique integers $q$ (quotient) and $r$ (remainder) such that $a = dq + r$ and $0 \leq r < d$.
+
+    \item Apply the Quotient-Remainder Theorem to the given problem. Let the integer be $n$, and let the divisor be $d=3$. According to the Quotient-Remainder Theorem, there exist unique integers $q$ and $r$ such that $n = 3q + r$ and $0 \leq r < 3$.
+
+    \item Determine the possible values for the remainder $r$. Since $0 \leq r < 3$, the possible integer values for $r$ are $0$, $1$, and $2$.
+
+    \item Consider each possible value of $r$:
+    \begin{itemize}
+        \item If $r = 0$, then $n = 3q + 0$, which simplifies to $n = 3q$.
+        \item If $r = 1$, then $n = 3q + 1$.
+        \item If $r = 2$, then $n = 3q + 2$.
+    \end{itemize}
+
+    \item Conclude that any integer $n$ must be of one of these three forms. Since the remainder $r$ must be one of $0$, $1$, or $2$, any integer $n$ can be expressed in one of the forms $n = 3q$, $n = 3q + 1$, or $n = 3q + 2$, for some integer $q$.
+
+\end{enumerate}
+
+\end{document}
+
+\newpage
+
+\section*{Problem 10}
+To solve problem 10, we need to find the integers $q$ and $r$ such that $n = dq + r$ and $0 \le r < d$. In this case, $n = 36$ and $d = 40$.
+
+We need to find integers $q$ and $r$ such that:
+$$36 = 40q + r$$
+and
+$$0 \le r < 40$$
+
+We can see that if we choose $q = 0$, then:
+$$36 = 40(0) + r$$
+$$36 = 0 + r$$
+$$r = 36$$
+
+Now we check if the condition $0 \le r < 40$ is satisfied.
+Since $r = 36$, we have $0 \le 36 < 40$, which is true.
+
+Therefore, the integers are $q=0$ and $r=36$.
+
+The final answer is $\boxed{q=0, r=36}$.
+
+\newpage
+
+\section*{Problem 10}
+I'm sorry, but there is no problem numbered 10 in the provided image. The problems are numbered starting from 27.
+
+\newpage
+
+\section*{Problem 10}
+To solve problem 10, we need to refer to the provided image and understand what problem 10 entails. Upon reviewing the image, it appears there is no problem explicitly labeled with the number '10'. The problems are numbered starting from 27.
+
+Assuming there might be a misunderstanding or an omission in the request, and based on the context of the image which is from a chapter on Number Theory and Methods of Proof, I will address one of the problems to demonstrate the expected format. Let's choose problem 27 as an example.
+
+**Problem 27:** Show that any integer $n$ can be written in one of the three forms $n=3q$ or $n=3q+1$ or $n=3q+2$ for some integer $q$.
+
+**Solution:**
+
+We will use the Quotient-Remainder Theorem, which states that for any integers $a$ and $b$ with $b > 0$, there exist unique integers $q$ and $r$ such that $a = bq + r$ and $0 \le r < b$.
+
+In this problem, let $n$ be any integer, and we want to divide it by $b=3$.
+According to the Quotient-Remainder Theorem, there exist unique integers $q$ and $r$ such that:
+$$n = 3q + r$$
+where $0 \le r < 3$.
+
+The possible values for the remainder $r$ are $0$, $1$, and $2$. We can consider each case:
+
+**Case 1: $r = 0$**
+If the remainder is $0$, then the equation becomes:
+$$n = 3q + 0$$
+$$n = 3q$$
+This shows that $n$ can be written in the form $3q$.
+
+**Case 2: $r = 1$**
+If the remainder is $1$, then the equation becomes:
+$$n = 3q + 1$$
+This shows that $n$ can be written in the form $3q+1$.
+
+**Case 3: $r = 2$**
+If the remainder is $2$, then the equation becomes:
+$$n = 3q + 2$$
+This shows that $n$ can be written in the form $3q+2$.
+
+Since these are the only possible values for the remainder when an integer is divided by 3, any integer $n$ must be of the form $3q$, $3q+1$, or $3q+2$ for some integer $q$.
+
+Therefore, any integer $n$ can be written in one of the three forms $n=3q$ or $n=3q+1$ or $n=3q+2$ for some integer $q$.
+
+---
+
+If there was a specific problem number 10 that was intended, please provide the text of that problem.
+
+\newpage
+
+\section*{Problem 11}
+The problem asks to find integers $q$ and $r$ such that $n = dq + r$ and $0 \le r < d$, for the given values of $n$ and $d$. We are given $n=70$ and $d=9$.
+
+We need to find $q$ and $r$ such that:
+$$70 = 9q + r$$
+and
+$$0 \le r < 9$$
+
+We can find the quotient $q$ by dividing $n$ by $d$:
+$$q = \lfloor \frac{n}{d} \rfloor$$
+$$q = \lfloor \frac{70}{9} \rfloor$$
+$$q = \lfloor 7.777... \rfloor$$
+$$q = 7$$
+
+Now we can find the remainder $r$ using the equation $n = dq + r$:
+$$70 = 9 \times 7 + r$$
+$$70 = 63 + r$$
+Subtracting 63 from both sides:
+$$r = 70 - 63$$
+$$r = 7$$
+
+We check if the condition $0 \le r < d$ is satisfied:
+$$0 \le 7 < 9$$
+This condition is satisfied.
+
+Therefore, for $n=70$ and $d=9$, we have $q=7$ and $r=7$.
+
+The final answer is $\boxed{q=7, r=7}$.
+
+\newpage
+
+\section*{Problem 11}
+Let $m$ and $n$ be integers.
+The quotient-remainder theorem states that for any integers $a$ and $d$ with $d > 0$, there exist unique integers $q$ and $r$ such that $a = dq + r$ and $0 \le r < d$.
+
+**Part a.**
+We need to prove that for all integers $m$ and $n$, the following are true:
+1. $m$ and $n$ are either both odd or both even.
+2. $m+n$ is even.
+3. $m-n$ is even.
+
+Case 1: $m$ is even and $n$ is even.
+If $m$ is even, then $m = 2k$ for some integer $k$.
+If $n$ is even, then $n = 2l$ for some integer $l$.
+Then $m+n = 2k + 2l = 2(k+l)$. Since $k+l$ is an integer, $m+n$ is even.
+And $m-n = 2k - 2l = 2(k-l)$. Since $k-l$ is an integer, $m-n$ is even.
+In this case, both $m$ and $n$ are even, $m+n$ is even, and $m-n$ is even.
+
+Case 2: $m$ is odd and $n$ is odd.
+If $m$ is odd, then $m = 2k+1$ for some integer $k$.
+If $n$ is odd, then $n = 2l+1$ for some integer $l$.
+Then $m+n = (2k+1) + (2l+1) = 2k + 2l + 2 = 2(k+l+1)$. Since $k+l+1$ is an integer, $m+n$ is even.
+And $m-n = (2k+1) - (2l+1) = 2k + 1 - 2l - 1 = 2k - 2l = 2(k-l)$. Since $k-l$ is an integer, $m-n$ is even.
+In this case, both $m$ and $n$ are odd, $m+n$ is even, and $m-n$ is even.
+
+Case 3: $m$ is even and $n$ is odd.
+If $m$ is even, then $m = 2k$ for some integer $k$.
+If $n$ is odd, then $n = 2l+1$ for some integer $l$.
+Then $m+n = 2k + (2l+1) = 2k + 2l + 1 = 2(k+l) + 1$. Since $k+l$ is an integer, $m+n$ is odd.
+And $m-n = 2k - (2l+1) = 2k - 2l - 1 = 2(k-l) - 1 = 2(k-l-1) + 1$. Since $k-l-1$ is an integer, $m-n$ is odd.
+In this case, one is even and one is odd, $m+n$ is odd, and $m-n$ is odd.
+
+Case 4: $m$ is odd and $n$ is even.
+If $m$ is odd, then $m = 2k+1$ for some integer $k$.
+If $n$ is even, then $n = 2l$ for some integer $l$.
+Then $m+n = (2k+1) + 2l = 2k + 2l + 1 = 2(k+l) + 1$. Since $k+l$ is an integer, $m+n$ is odd.
+And $m-n = (2k+1) - 2l = 2k - 2l + 1 = 2(k-l) + 1$. Since $k-l$ is an integer, $m-n$ is odd.
+In this case, one is odd and one is even, $m+n$ is odd, and $m-n$ is odd.
+
+From the above cases, for $m+n$ and $m-n$ to be even, both $m$ and $n$ must be of the same parity (both even or both odd). Thus, if $m+n$ and $m-n$ are even, then $m$ and $n$ are either both odd or both even.
+
+Conversely, if $m$ and $n$ are either both odd or both even, then as shown in Case 1 and Case 2, $m+n$ and $m-n$ are both even.
+
+**Part b.**
+We need to find all solutions to the equation $m^2 - n^2 = 56$ for which both $m$ and $n$ are positive integers.
+We can factor the left side of the equation:
+$$ m^2 - n^2 = (m-n)(m+n) $$
+So, we have:
+$$ (m-n)(m+n) = 56 $$
+Since $m$ and $n$ are positive integers, $m+n$ is a positive integer.
+Also, since $m^2 - n^2 = 56 > 0$, we must have $m^2 > n^2$, which implies $m > n$ (since $m$ and $n$ are positive). Therefore, $m-n$ is a positive integer.
+We need to find pairs of factors of 56, let $m-n = a$ and $m+n = b$, such that $ab = 56$ and $b > a > 0$.
+Also, from part a, we know that if $m+n$ and $m-n$ are both even, then $m$ and $n$ are either both odd or both even. If $m+n$ and $m-n$ have different parity, then one of them is odd and the other is even. Their product will be odd. Since 56 is even, both $m-n$ and $m+n$ must have the same parity. Since their product is even, both must be even.
+
+The pairs of factors of 56 are:
+(1, 56), (2, 28), (4, 14), (7, 8).
+
+We need to consider pairs where both factors are even. These are:
+1. $m-n = 2$ and $m+n = 28$
+   Adding the two equations: $(m-n) + (m+n) = 2 + 28 \implies 2m = 30 \implies m = 15$.
+   Substituting $m=15$ into $m+n=28$: $15+n=28 \implies n=13$.
+   Check: $m=15, n=13$. $m^2 - n^2 = 15^2 - 13^2 = 225 - 169 = 56$. Both $m$ and $n$ are positive integers.
+
+2. $m-n = 4$ and $m+n = 14$
+   Adding the two equations: $(m-n) + (m+n) = 4 + 14 \implies 2m = 18 \implies m = 9$.
+   Substituting $m=9$ into $m+n=14$: $9+n=14 \implies n=5$.
+   Check: $m=9, n=5$. $m^2 - n^2 = 9^2 - 5^2 = 81 - 25 = 56$. Both $m$ and $n$ are positive integers.
+
+The solutions are $(m,n) = (15, 13)$ and $(m,n) = (9, 5)$.
+
+**Part c.**
+We need to find all solutions to the equation $m^2 - n^2 = 88$ for which both $m$ and $n$ are positive integers.
+$$ (m-n)(m+n) = 88 $$
+Let $m-n = a$ and $m+n = b$. We have $ab = 88$, $b > a > 0$, and both $a$ and $b$ must be even.
+
+The pairs of factors of 88 are:
+(1, 88), (2, 44), (4, 22), (8, 11).
+
+We need to consider pairs where both factors are even. These are:
+1. $m-n = 2$ and $m+n = 44$
+   Adding the two equations: $(m-n) + (m+n) = 2 + 44 \implies 2m = 46 \implies m = 23$.
+   Substituting $m=23$ into $m+n=44$: $23+n=44 \implies n=21$.
+   Check: $m=23, n=21$. $m^2 - n^2 = 23^2 - 21^2 = 529 - 441 = 88$. Both $m$ and $n$ are positive integers.
+
+2. $m-n = 4$ and $m+n = 22$
+   Adding the two equations: $(m-n) + (m+n) = 4 + 22 \implies 2m = 26 \implies m = 13$.
+   Substituting $m=13$ into $m+n=22$: $13+n=22 \implies n=9$.
+   Check: $m=13, n=9$. $m^2 - n^2 = 13^2 - 9^2 = 169 - 81 = 88$. Both $m$ and $n$ are positive integers.
+
+The solutions are $(m,n) = (23, 21)$ and $(m,n) = (13, 9)$.
+
+\newpage
+
+\section*{Problem 12}
+The problem asks to solve problem 12, but there is no problem 12 in the image. There are "Test Yourself" questions numbered 1-6 and "Exercise Set 4.4" numbered 1-4, 17, and 18. Assuming the request is to provide answers to the "Test Yourself" questions.
+
+**Test Yourself**
+
+1.  The quotient-remainder theorem says that for all integers $n$ and $d$ with $d \ge 0$, there exist **unique** integers $q$ and $r$ such that $n = dq + r$ and **$0 \le r < d$**.
+
+2.  If $n$ and $d$ are integers with $d > 0$, $n$ div $d$ is **the quotient $q$** and $n$ mod $d$ is **the remainder $r$**.
+
+3.  The parity of an integer indicates whether the integer is **even** or **odd**.
+
+4.  According to the quotient-remainder theorem, if an integer $n$ is divided by a positive integer $d$, the possible remainders are **$0, 1, 2, ..., d-1$**. This implies that $n$ can be written in one of the forms **$dq, dq+1, dq+2, ..., dq+(d-1)$** for some integer $q$.
+
+5.  To prove a statement of the form "If $A_1$ or $A_2$ or $A_3$, then $C$", prove **$A_1 \implies C$**, **$A_2 \implies C$**, and **$A_3 \implies C$**.
+
+6.  The triangle inequality says that for all real numbers $x$ and $y$, **$|x+y| \le |x| + |y|$**.
+
+**Exercise Set 4.4**
+
+For each of the values of $n$ and $d$ given in 1-6, find integers $q$ and $r$ such that $n = dq + r$ and $0 \le r < d$.
+
+1.  $n = 70, d = 9$
+    We need to find $q$ and $r$ such that $70 = 9q + r$ and $0 \le r < 9$.
+    $70 \div 9 = 7$ with a remainder of $7$.
+    So, $q = 7$ and $r = 7$.
+    Check: $9 \times 7 + 7 = 63 + 7 = 70$. And $0 \le 7 < 9$.
+
+2.  $n = 62, d = 7$
+    We need to find $q$ and $r$ such that $62 = 7q + r$ and $0 \le r < 7$.
+    $62 \div 7 = 8$ with a remainder of $6$.
+    So, $q = 8$ and $r = 6$.
+    Check: $7 \times 8 + 6 = 56 + 6 = 62$. And $0 \le 6 < 7$.
+
+3.  $n = 36, d = 40$
+    We need to find $q$ and $r$ such that $36 = 40q + r$ and $0 \le r < 40$.
+    Since $n < d$, the quotient $q$ is $0$.
+    $36 = 40 \times 0 + 36$.
+    So, $q = 0$ and $r = 36$.
+    Check: $40 \times 0 + 36 = 0 + 36 = 36$. And $0 \le 36 < 40$.
+
+4.  $n = 3, d = 11$
+    We need to find $q$ and $r$ such that $3 = 11q + r$ and $0 \le r < 11$.
+    Since $n < d$, the quotient $q$ is $0$.
+    $3 = 11 \times 0 + 3$.
+    So, $q = 0$ and $r = 3$.
+    Check: $11 \times 0 + 3 = 0 + 3 = 3$. And $0 \le 3 < 11$.
+
+17. Prove that the product of any two consecutive integers is even.
+    Let the two consecutive integers be $n$ and $n+1$.
+    We consider two cases for $n$:
+    Case 1: $n$ is even.
+    If $n$ is even, then $n$ can be written as $n = 2k$ for some integer $k$.
+    The product is $n(n+1) = (2k)(2k+1) = 2(k(2k+1))$.
+    Since $k(2k+1)$ is an integer, the product is of the form $2m$, which means it is even.
+
+    Case 2: $n$ is odd.
+    If $n$ is odd, then $n$ can be written as $n = 2k+1$ for some integer $k$.
+    Then $n+1 = (2k+1) + 1 = 2k+2 = 2(k+1)$.
+    The product is $n(n+1) = (2k+1)(2(k+1)) = 2((2k+1)(k+1))$.
+    Since $(2k+1)(k+1)$ is an integer, the product is of the form $2m$, which means it is even.
+
+    In both cases, the product of two consecutive integers is even.
+
+18. The result of exercise 17 suggests that the second apparent blind alley in the discussion of Example 4.4.7 might not be a blind alley after all. Write a new proof of Theorem 4.4.3.
+    (Note: Theorem 4.4.3 is not provided in the image, so this problem cannot be solved without additional context. However, based on the hint from Exercise 17, it is likely related to properties of integers such as parity or divisibility.)
+
+\newpage
+
+\section*{Problem 11}
+The problem is not numbered 11 in the image. Assuming you meant problem 31, here's the solution:
+
+**31. a. Prove that for all integers $m$ and $n$, $m+n$ and $m-n$ are either both odd or both even.**
+
+**Proof:**
+
+We can consider four cases for the parity of integers $m$ and $n$.
+
+**Case 1: $m$ is even and $n$ is even.**
+If $m$ is even, then $m = 2k$ for some integer $k$.
+If $n$ is even, then $n = 2l$ for some integer $l$.
+Then,
+$$m + n = 2k + 2l = 2(k+l)$$
+Since $k+l$ is an integer, $m+n$ is even.
+And,
+$$m - n = 2k - 2l = 2(k-l)$$
+Since $k-l$ is an integer, $m-n$ is even.
+In this case, both $m+n$ and $m-n$ are even.
+
+**Case 2: $m$ is even and $n$ is odd.**
+If $m$ is even, then $m = 2k$ for some integer $k$.
+If $n$ is odd, then $n = 2l+1$ for some integer $l$.
+Then,
+$$m + n = 2k + (2l+1) = 2(k+l) + 1$$
+Since $k+l$ is an integer, $m+n$ is odd.
+And,
+$$m - n = 2k - (2l+1) = 2k - 2l - 1 = 2(k-l) - 1$$
+We can rewrite this as $2(k-l-1) + 1$.
+Since $k-l-1$ is an integer, $m-n$ is odd.
+In this case, both $m+n$ and $m-n$ are odd.
+
+**Case 3: $m$ is odd and $n$ is even.**
+If $m$ is odd, then $m = 2k+1$ for some integer $k$.
+If $n$ is even, then $n = 2l$ for some integer $l$.
+Then,
+$$m + n = (2k+1) + 2l = 2(k+l) + 1$$
+Since $k+l$ is an integer, $m+n$ is odd.
+And,
+$$m - n = (2k+1) - 2l = 2(k-l) + 1$$
+Since $k-l$ is an integer, $m-n$ is odd.
+In this case, both $m+n$ and $m-n$ are odd.
+
+**Case 4: $m$ is odd and $n$ is odd.**
+If $m$ is odd, then $m = 2k+1$ for some integer $k$.
+If $n$ is odd, then $n = 2l+1$ for some integer $l$.
+Then,
+$$m + n = (2k+1) + (2l+1) = 2k + 2l + 2 = 2(k+l+1)$$
+Since $k+l+1$ is an integer, $m+n$ is even.
+And,
+$$m - n = (2k+1) - (2l+1) = 2k + 1 - 2l - 1 = 2k - 2l = 2(k-l)$$
+Since $k-l$ is an integer, $m-n$ is even.
+In this case, both $m+n$ and $m-n$ are even.
+
+In all four cases, $m+n$ and $m-n$ are either both odd or both even. Therefore, the statement is proven.
+
+**b. Find all solutions to the equation $m^2 - n^2 = 56$ for which both $m$ and $n$ are positive integers.**
+
+We can factor the difference of squares:
+$$m^2 - n^2 = (m-n)(m+n) = 56$$
+Since $m$ and $n$ are positive integers, $m+n$ is a positive integer.
+Also, since $(m-n)(m+n) = 56 > 0$ and $m+n > 0$, it must be that $m-n > 0$. This implies $m > n$.
+Furthermore, since $m$ and $n$ are integers, $m-n$ and $m+n$ are integers.
+We need to find pairs of factors of 56 such that their product is 56. Let $a = m-n$ and $b = m+n$. We have $ab = 56$.
+Also, note that $b - a = (m+n) - (m-n) = 2n$, which means $b-a$ must be an even number. This implies that $a$ and $b$ must have the same parity (both even or both odd). Since their product 56 is even, both $a$ and $b$ must be even.
+
+The pairs of factors of 56 are:
+(1, 56), (2, 28), (4, 14), (7, 8).
+
+We need to select pairs where both factors are even and the second factor is greater than the first (since $m+n > m-n$).
+
+The valid pairs $(m-n, m+n)$ are:
+1. $(2, 28)$
+2. $(4, 14)$
+
+Now we solve for $m$ and $n$ for each pair.
+
+**Case 1: $m-n = 2$ and $m+n = 28$.**
+Adding the two equations:
+$(m-n) + (m+n) = 2 + 28$
+$2m = 30$
+$m = 15$
+Substituting $m=15$ into $m+n=28$:
+$15 + n = 28$
+$n = 13$
+Since $m=15$ and $n=13$ are positive integers, $(15, 13)$ is a solution.
+Check: $15^2 - 13^2 = 225 - 169 = 56$.
+
+**Case 2: $m-n = 4$ and $m+n = 14$.**
+Adding the two equations:
+$(m-n) + (m+n) = 4 + 14$
+$2m = 18$
+$m = 9$
+Substituting $m=9$ into $m+n=14$:
+$9 + n = 14$
+$n = 5$
+Since $m=9$ and $n=5$ are positive integers, $(9, 5)$ is a solution.
+Check: $9^2 - 5^2 = 81 - 25 = 56$.
+
+The solutions for $(m, n)$ are $(15, 13)$ and $(9, 5)$.
+
+**c. Find all solutions to the equation $m^2 - n^2 = 88$ for which both $m$ and $n$ are positive integers.**
+
+We can factor the difference of squares:
+$$m^2 - n^2 = (m-n)(m+n) = 88$$
+Since $m$ and $n$ are positive integers, $m+n$ is a positive integer.
+Also, since $(m-n)(m+n) = 88 > 0$ and $m+n > 0$, it must be that $m-n > 0$. This implies $m > n$.
+Furthermore, since $m$ and $n$ are integers, $m-n$ and $m+n$ are integers.
+We need to find pairs of factors of 88 such that their product is 88. Let $a = m-n$ and $b = m+n$. We have $ab = 88$.
+Also, note that $b - a = (m+n) - (m-n) = 2n$, which means $b-a$ must be an even number. This implies that $a$ and $b$ must have the same parity (both even or both odd). Since their product 88 is even, both $a$ and $b$ must be even.
+
+The pairs of factors of 88 are:
+(1, 88), (2, 44), (4, 22), (8, 11).
+
+We need to select pairs where both factors are even and the second factor is greater than the first (since $m+n > m-n$).
+
+The valid pairs $(m-n, m+n)$ are:
+1. $(2, 44)$
+2. $(4, 22)$
+
+Now we solve for $m$ and $n$ for each pair.
+
+**Case 1: $m-n = 2$ and $m+n = 44$.**
+Adding the two equations:
+$(m-n) + (m+n) = 2 + 44$
+$2m = 46$
+$m = 23$
+Substituting $m=23$ into $m+n=44$:
+$23 + n = 44$
+$n = 21$
+Since $m=23$ and $n=21$ are positive integers, $(23, 21)$ is a solution.
+Check: $23^2 - 21^2 = 529 - 441 = 88$.
+
+**Case 2: $m-n = 4$ and $m+n = 22$.**
+Adding the two equations:
+$(m-n) + (m+n) = 4 + 22$
+$2m = 26$
+$m = 13$
+Substituting $m=13$ into $m+n=22$:
+$13 + n = 22$
+$n = 9$
+Since $m=13$ and $n=9$ are positive integers, $(13, 9)$ is a solution.
+Check: $13^2 - 9^2 = 169 - 81 = 88$.
+
+The solutions for $(m, n)$ are $(23, 21)$ and $(13, 9)$.
+
+\newpage
+
+\section*{Problem 12}
+This is not a problem numbered 12. This is a set of math problems from a textbook. Please provide the number of the problem you would like me to solve.
+
+\newpage
+
+\section*{Problem 13}
+To solve problem 13, we first need to identify it in the provided image. The problems numbered 1 through 6 are under the "Test Yourself" section. The problems numbered 1 through 6 (with specific values for n and d) are under the "Exercise Set 4.4". Problem 13 is not explicitly present in the visible part of the image. However, assuming problem 13 is intended to be the first problem in a continuation of the "Exercise Set 4.4" that might be on another page, or if it is a typo and it refers to one of the exercises that are shown, we will proceed assuming it refers to problem 1 under the "Exercise Set 4.4".
+
+**Problem 1 (under Exercise Set 4.4):** For each of the values of n and d given in 1–6, find integers q and r such that $n = dq + r$ and $0 \leq r < d$.
+Given: $n = 70, d = 9$.
+
+**Step 1: Understand the Quotient-Remainder Theorem**
+The problem asks us to find the quotient ($q$) and remainder ($r$) when an integer $n$ is divided by a positive integer $d$. The theorem states that for any integers $n$ and $d$ with $d > 0$, there exist unique integers $q$ and $r$ such that $n = dq + r$ and $0 \leq r < d$.
+
+**Step 2: Perform the Division**
+We need to divide 70 by 9 to find how many times 9 fits into 70 and what is left over.
+
+**Step 3: Calculate the Quotient (q)**
+Divide 70 by 9:
+$70 \div 9$
+
+We look for the largest multiple of 9 that is less than or equal to 70.
+$9 \times 1 = 9$
+$9 \times 2 = 18$
+$9 \times 3 = 27$
+$9 \times 4 = 36$
+$9 \times 5 = 45$
+$9 \times 6 = 54$
+$9 \times 7 = 63$
+$9 \times 8 = 72$
+
+The largest multiple of 9 less than or equal to 70 is 63, which is $9 \times 7$.
+So, the quotient $q = 7$.
+
+**Step 4: Calculate the Remainder (r)**
+The remainder is the difference between $n$ and the product of $d$ and $q$.
+$r = n - (d \times q)$
+$r = 70 - (9 \times 7)$
+$r = 70 - 63$
+$r = 7$
+
+**Step 5: Verify the Condition for the Remainder**
+The condition is $0 \leq r < d$.
+In this case, $r = 7$ and $d = 9$.
+We check if $0 \leq 7 < 9$. This condition is true.
+
+**Step 6: State the Solution**
+The integers $q$ and $r$ are 7 and 7, respectively.
+
+The final answer is $\boxed{q=7, r=7}$.
+
+\newpage
+
+\section*{Problem 13}
+I'm sorry, but there is no problem numbered 13 in the provided image. The problems are numbered starting from 27 on the left side and 41 on the right side. Please check the problem number and provide it again if it is different.
+
+\newpage
+
+\section*{Problem 12}
+Here's the solution to problem 47, as problem 12 is not present in the image.
+
+47. A matrix M has 3 rows and 4 columns.
+$$
+M = \begin{bmatrix}
+a_{11} & a_{12} & a_{13} & a_{14} \\
+a_{21} & a_{22} & a_{23} & a_{24} \\
+a_{31} & a_{32} & a_{33} & a_{34}
+\end{bmatrix}
+$$
+The 12 entries in the matrix are to be stored in row major form in locations 7,609 to 7,620 in a computer's memory. This means that the entries in the first row (reading left to right) are stored first, then the entries in the second row, and finally the entries in the third row.
+
+a. Which location will $a_{22}$ be stored in?
+
+In row-major order, the entries are stored row by row.
+The first row has 4 entries: $a_{11}, a_{12}, a_{13}, a_{14}$.
+The second row starts after the first row is completely stored.
+The first entry in the second row is $a_{21}$.
+The second entry in the second row is $a_{22}$.
+
+The starting location is 7,609.
+The entries of the first row will occupy locations:
+$a_{11}$: 7,609
+$a_{12}$: 7,609 + 1 = 7,610
+$a_{13}$: 7,609 + 2 = 7,611
+$a_{14}$: 7,609 + 3 = 7,612
+
+The second row starts at the next location.
+The entries of the second row will occupy locations:
+$a_{21}$: 7,612 + 1 = 7,613
+$a_{22}$: 7,613 + 1 = 7,614
+
+Therefore, $a_{22}$ will be stored in location 7,614.
+
+b. Write a formula (in $i$ and $j$) that gives the integer $n$ so that $a_{ij}$ is stored in location 7,609 + $n$.
+
+The general formula for storing an element $a_{ij}$ in row-major order in a matrix with $C$ columns, starting from a base address $B$, is:
+$Location(a_{ij}) = B + (i-1) \times C + (j-1)$
+
+In this problem:
+The base address $B = 7,609$.
+The number of columns $C = 4$.
+The element is $a_{ij}$, where $i$ is the row index and $j$ is the column index.
+
+So, the location of $a_{ij}$ is $7,609 + (i-1) \times 4 + (j-1)$.
+
+We are asked to find a formula for $n$ such that $a_{ij}$ is stored in location $7,609 + n$.
+Comparing the two expressions for the location:
+$7,609 + n = 7,609 + (i-1) \times 4 + (j-1)$
+
+Subtracting 7,609 from both sides:
+$n = (i-1) \times 4 + (j-1)$
+
+Thus, the formula for $n$ is $n = 4(i-1) + (j-1)$.
+
+Let's verify this with the previous part: For $a_{22}$, $i=2$ and $j=2$.
+$n = 4(2-1) + (2-1) = 4(1) + 1 = 4 + 1 = 5$.
+The location is $7,609 + n = 7,609 + 5 = 7,614$, which matches our previous result.
+
+\newpage
+
+\section*{Problem 14}
+The problem asks us to fill in the blanks in the "Test Yourself" section. We will answer questions 1-6.
+
+**Test Yourself**
+
+1.  The quotient-remainder theorem says that for all integers $n$ and $d$ with $d \geq 0$, there exist unique integers $q$ and $r$ such that $n = dq + r$ and $0 \leq r < d$.
+
+2.  If $n$ and $d$ are integers with $d > 0$, $n$ div $d$ is the quotient and $n$ mod $d$ is the remainder.
+
+3.  The parity of an integer indicates whether the integer is even or odd.
+
+4.  According to the quotient-remainder theorem, if an integer $n$ is divided by a positive integer $d$, the possible remainders are $0, 1, 2, \ldots, d-1$. This implies that $n$ can be written in one of the forms $dq$, $dq+1$, $dq+2$, $\ldots$, $dq+d-1$ for some integer $q$.
+
+5.  To prove a statement of the form "If $A_1$ or $A_2$ or $A_3$, then C," prove $A_1 \implies C$ and $A_2 \implies C$ and $A_3 \implies C$.
+
+6.  The triangle inequality says that for all real numbers $x$ and $y$, $|x+y| \leq |x| + |y|$.
+
+\newpage
+
+\section*{Problem 14}
+It seems there might be a misunderstanding. The provided image contains problems numbered from 27 to 47. There is no problem labeled "14".
+
+Please double-check the problem number you are looking for. If you can provide the correct problem number or a description of the problem, I would be happy to assist you.
+
+\newpage
+
+\section*{Problem 13}
+**Problem 13**
+
+There is no problem labeled 13 in the provided image. The problems start from number 27.
+
+\newpage
+
+\section*{Problem 15}
+The image does not contain problem 15. It contains problems numbered 1 through 6 under "Test Yourself" and problems numbered 1 through 4, and 17 through 18 under "Exercise Set 4.4".
+
+\newpage
+
+\section*{Problem 14}
+Unfortunately, there is no problem labeled "14" in the provided image. The problems are numbered starting from 27. Please provide the correct problem number, or the text of the problem you would like solved.
+
+\newpage
+
+\section*{Problem 15}
+Here's the solution to problem 15:
+
+**Problem 15:** For all real numbers $r$ and $c$ with $c \ge 0$, if $-c \le r \le c$, then $|r| \le c$.
+
+**Solution:**
+
+We are given that $c \ge 0$.
+We are also given the inequality:
+$$ -c \le r \le c $$
+
+We want to show that $|r| \le c$.
+
+The definition of the absolute value of a real number $r$ is:
+$$ |r| = \begin{cases} r & \text{if } r \ge 0 \\ -r & \text{if } r < 0 \end{cases} $$
+
+We consider two cases for $r$:
+
+**Case 1: $r \ge 0$**
+
+If $r \ge 0$, then from the given inequality, we have $r \le c$.
+By the definition of absolute value, if $r \ge 0$, then $|r| = r$.
+Therefore, if $r \ge 0$, we have $|r| = r \le c$.
+
+**Case 2: $r < 0$**
+
+If $r < 0$, then from the given inequality, we have $-c \le r$.
+Multiplying both sides of the inequality $-c \le r$ by $-1$ and reversing the inequality sign, we get:
+$$ (-1)(-c) \ge (-1)r $$
+$$ c \ge -r $$
+By the definition of absolute value, if $r < 0$, then $|r| = -r$.
+Therefore, if $r < 0$, we have $|r| = -r \le c$.
+
+In both cases, we have shown that $|r| \le c$.
+
+Thus, for all real numbers $r$ and $c$ with $c \ge 0$, if $-c \le r \le c$, then $|r| \le c$.
+
+$\blacksquare$
+
+\newpage
+
+\section*{Problem 16}
+16. The triangle inequality says that for all real numbers $x$ and $y$, $|x+y| \le |x| + |y|$.
+
+\newpage
+
+\section*{Problem 15}
+The problem asks to prove that for all real numbers $r$ and $c$ with $c \ge 0$, if $-c \le r \le c$, then $|r| \le c$.
+
+We are given that $-c \le r \le c$, where $c \ge 0$.
+We need to show that $|r| \le c$.
+
+By the definition of absolute value, $|r|$ is the distance of $r$ from zero on the number line.
+We have two cases for $r$: $r \ge 0$ or $r < 0$.
+
+Case 1: $r \ge 0$.
+If $r \ge 0$, then by the definition of absolute value, $|r| = r$.
+Since we are given that $r \le c$, we can directly conclude that $|r| \le c$.
+
+Case 2: $r < 0$.
+If $r < 0$, then by the definition of absolute value, $|r| = -r$.
+We are given that $-c \le r$.
+Multiplying both sides of the inequality $-c \le r$ by $-1$, we reverse the direction of the inequality sign:
+$(-1)(-c) \ge (-1)r$
+$c \ge -r$
+Since $|r| = -r$ when $r < 0$, we have $|r| \le c$.
+
+In both cases, we have shown that if $-c \le r \le c$ and $c \ge 0$, then $|r| \le c$.
+
+Therefore, for all real numbers $r$ and $c$ with $c \ge 0$, if $-c \le r \le c$, then $|r| \le c$.
+
+The final answer is $\boxed{For all real numbers $r$ and $c$ with $c \ge 0$, if $-c \le r \le c$, then $|r| \le c.}$.
+
+\newpage
+
+\section*{Problem 16}
+16. For all integers $m$, $m^2 = 5k$ or $m^2 = 5k+1$ or $m^2 = 5k+4$ for some integer $k$.
+
+We can consider the possible remainders when an integer $m$ is divided by 5. By the quotient-remainder theorem, for any integer $m$ and a positive integer $d$, there exist unique integers $q$ and $r$ such that $m = dq + r$ and $0 \le r < d$. In this case, $d=5$. Thus, any integer $m$ can be written in one of the following forms:
+$m = 5q$
+$m = 5q + 1$
+$m = 5q + 2$
+$m = 5q + 3$
+$m = 5q + 4$
+
+Now, let's consider the square of $m$ for each of these cases.
+
+Case 1: $m = 5q$
+\begin{align*} m^2 &= (5q)^2 \\ &= 25q^2 \\ &= 5(5q^2)\end{align*}
+Let $k = 5q^2$. Since $q$ is an integer, $q^2$ is an integer, and $5q^2$ is also an integer. Thus, $m^2 = 5k$.
+
+Case 2: $m = 5q + 1$
+\begin{align*} m^2 &= (5q + 1)^2 \\ &= (5q)^2 + 2(5q)(1) + 1^2 \\ &= 25q^2 + 10q + 1 \\ &= 5(5q^2 + 2q) + 1\end{align*}
+Let $k = 5q^2 + 2q$. Since $q$ is an integer, $q^2$ is an integer, $5q^2$ is an integer, $2q$ is an integer, and their sum $5q^2 + 2q$ is an integer. Thus, $m^2 = 5k + 1$.
+
+Case 3: $m = 5q + 2$
+\begin{align*} m^2 &= (5q + 2)^2 \\ &= (5q)^2 + 2(5q)(2) + 2^2 \\ &= 25q^2 + 20q + 4 \\ &= 5(5q^2 + 4q) + 4\end{align*}
+Let $k = 5q^2 + 4q$. Since $q$ is an integer, $q^2$ is an integer, $5q^2$ is an integer, $4q$ is an integer, and their sum $5q^2 + 4q$ is an integer. Thus, $m^2 = 5k + 4$.
+
+Case 4: $m = 5q + 3$
+\begin{align*} m^2 &= (5q + 3)^2 \\ &= (5q)^2 + 2(5q)(3) + 3^2 \\ &= 25q^2 + 30q + 9 \\ &= 25q^2 + 30q + 5 + 4 \\ &= 5(5q^2 + 6q + 1) + 4\end{align*}
+Let $k = 5q^2 + 6q + 1$. Since $q$ is an integer, $q^2$ is an integer, $5q^2$ is an integer, $6q$ is an integer, and $1$ is an integer, their sum $5q^2 + 6q + 1$ is an integer. Thus, $m^2 = 5k + 4$.
+
+Case 5: $m = 5q + 4$
+\begin{align*} m^2 &= (5q + 4)^2 \\ &= (5q)^2 + 2(5q)(4) + 4^2 \\ &= 25q^2 + 40q + 16 \\ &= 25q^2 + 40q + 15 + 1 \\ &= 5(5q^2 + 8q + 3) + 1\end{align*}
+Let $k = 5q^2 + 8q + 3$. Since $q$ is an integer, $q^2$ is an integer, $5q^2$ is an integer, $8q$ is an integer, and $3$ is an integer, their sum $5q^2 + 8q + 3$ is an integer. Thus, $m^2 = 5k + 1$.
+
+In summary, for any integer $m$, its square $m^2$ can be written in one of the following forms:
+- $m^2 = 5k$ (from Case 1)
+- $m^2 = 5k + 1$ (from Case 2 and Case 5)
+- $m^2 = 5k + 4$ (from Case 3 and Case 4)
+
+Therefore, for all integers $m$, $m^2 = 5k$ or $m^2 = 5k+1$ or $m^2 = 5k+4$ for some integer $k$.
+
+\newpage
+
+\section*{Problem 17}
+Problem 17 asks to prove that the product of any two consecutive integers is even.
+
+Let the two consecutive integers be $n$ and $n+1$. We want to prove that $n(n+1)$ is always an even number.
+
+We can consider two cases based on the parity of $n$.
+
+Case 1: $n$ is an even integer.
+If $n$ is even, then $n$ can be written in the form $n = 2k$ for some integer $k$.
+Then, the product of the two consecutive integers is:
+$$n(n+1) = (2k)(2k+1)$$
+$$n(n+1) = 2(k(2k+1))$$
+Since $k$ is an integer, $k(2k+1)$ is also an integer. Let $m = k(2k+1)$.
+Therefore, $n(n+1) = 2m$, which means $n(n+1)$ is an even number.
+
+Case 2: $n$ is an odd integer.
+If $n$ is odd, then $n$ can be written in the form $n = 2k+1$ for some integer $k$.
+Then, the second consecutive integer is $n+1$:
+$$n+1 = (2k+1) + 1$$
+$$n+1 = 2k+2$$
+$$n+1 = 2(k+1)$$
+Now, the product of the two consecutive integers is:
+$$n(n+1) = (2k+1)(2(k+1))$$
+$$n(n+1) = 2((2k+1)(k+1))$$
+Since $k$ is an integer, $(2k+1)(k+1)$ is also an integer. Let $p = (2k+1)(k+1)$.
+Therefore, $n(n+1) = 2p$, which means $n(n+1)$ is an even number.
+
+In both cases, the product of two consecutive integers is an even number.
+Thus, we have proved that the product of any two consecutive integers is even.
+
+\newpage
+
+\end{document}\section*{Problem 16}
+Here's the solution to problem 16:
+
+The problem states: "If $n$ is an odd integer, then $n^4 \pmod{16} = 1$."
+
+**Step 1: Express an odd integer in general form.**
+
+Any odd integer $n$ can be written in the form $n = 2k + 1$, where $k$ is an integer.
+
+**Step 2: Calculate $n^4$.**
+
+We need to compute $n^4$. Let's start by squaring $n$:
+\begin{align*} n^2 &= (2k+1)^2 \\ &= (2k)^2 + 2(2k)(1) + 1^2 \\ &= 4k^2 + 4k + 1 \\ &= 4k(k+1) + 1 \end{align*}
+
+Now, let's consider the term $k(k+1)$. Since $k$ and $k+1$ are consecutive integers, one of them must be even. Therefore, their product $k(k+1)$ is always divisible by 2.
+So, we can write $k(k+1) = 2m$ for some integer $m$.
+
+Substituting this back into the expression for $n^2$:
+\begin{align*} n^2 &= 4(2m) + 1 \\ &= 8m + 1 \end{align*}
+This shows that the square of any odd integer is of the form $8m+1$.
+
+Now, let's calculate $n^4$:
+\begin{align*} n^4 &= (n^2)^2 \\ &= (8m+1)^2 \\ &= (8m)^2 + 2(8m)(1) + 1^2 \\ &= 64m^2 + 16m + 1 \\ &= 16(4m^2 + m) + 1 \end{align*}
+
+**Step 3: Determine $n^4 \pmod{16}$.**
+
+Let $j = 4m^2 + m$. Since $m$ is an integer, $j$ is also an integer.
+So, we have $n^4 = 16j + 1$.
+
+When we take this expression modulo 16, we get:
+\begin{align*} n^4 \pmod{16} &= (16j + 1) \pmod{16} \\ &= 16j \pmod{16} + 1 \pmod{16} \\ &= 0 + 1 \\ &= 1 \end{align*}
+
+**Conclusion:**
+
+Therefore, if $n$ is an odd integer, then $n^4 \pmod{16} = 1$.
+
+\newpage
+
+\section*{Problem 18}
+The problem asks us to write a new proof of Theorem 4.4.3, which is suggested by the result of exercise 17. Exercise 17 is not provided in the image, but we can infer its likely content and the theorem from the context. The context mentions "the product of any two consecutive integers is even" in exercise 17. This is a well-known property related to the parity of integers. Theorem 4.4.3 likely states this property.
+
+Let's assume Theorem 4.4.3 states: "The product of any two consecutive integers is even."
+
+To prove this theorem, we can consider the two possible cases for the parity of an integer: it is either even or odd.
+
+**Proof:**
+
+Let $n$ be any integer. We want to prove that the product of $n$ and the next consecutive integer, $n+1$, is always even. We can consider two cases based on the parity of $n$.
+
+Case 1: $n$ is an even integer.
+If $n$ is even, then by definition, $n$ can be written in the form $n = 2k$ for some integer $k$.
+Then, the product of the two consecutive integers is:
+\begin{align*} n(n+1) &= (2k)(2k+1) \\ &= 2 \cdot [k(2k+1)] \end{align*}
+Since $k$ and $2k+1$ are integers, their product $k(2k+1)$ is also an integer. Let $m = k(2k+1)$.
+Then, $n(n+1) = 2m$, which means that $n(n+1)$ is an even integer.
+
+Case 2: $n$ is an odd integer.
+If $n$ is odd, then by definition, $n$ can be written in the form $n = 2k+1$ for some integer $k$.
+Then, the next consecutive integer is $n+1 = (2k+1) + 1 = 2k+2$.
+The product of the two consecutive integers is:
+\begin{align*} n(n+1) &= (2k+1)(2k+2) \\ &= (2k+1) \cdot 2(k+1) \\ &= 2 \cdot [(2k+1)(k+1)] \end{align*}
+Since $k$ is an integer, $2k+1$ and $k+1$ are also integers. Their product $(2k+1)(k+1)$ is therefore an integer. Let $p = (2k+1)(k+1)$.
+Then, $n(n+1) = 2p$, which means that $n(n+1)$ is an even integer.
+
+In both cases, whether $n$ is even or odd, the product $n(n+1)$ is an even integer. Therefore, the product of any two consecutive integers is even.
+
+$\blacksquare$
+
+\newpage
+
+\section*{Problem 17}
+The problem statement from the image is not available. Please provide the text of problem 17 so I can solve it for you.
+
+\newpage
+
+\end{document}\section*{Problem 18}
+18. a. Use the quotient-remainder theorem with $d=3$ to prove that the product of any three consecutive integers is divisible by 3.
+
+**Solution:**
+Let the three consecutive integers be $n$, $n+1$, and $n+2$.
+By the quotient-remainder theorem, when any integer $n$ is divided by 3, the remainder can be 0, 1, or 2.
+So, we have three cases for $n$:
+
+**Case 1: $n$ is divisible by 3.**
+If $n$ is divisible by 3, then $n = 3q$ for some integer $q$.
+The product of the three consecutive integers is $n(n+1)(n+2) = (3q)(3q+1)(3q+2)$.
+Since one of the factors is $3q$, the product is divisible by 3.
+
+**Case 2: $n$ has a remainder of 1 when divided by 3.**
+If $n$ has a remainder of 1 when divided by 3, then $n = 3q+1$ for some integer $q$.
+The three consecutive integers are $3q+1$, $(3q+1)+1 = 3q+2$, and $(3q+1)+2 = 3q+3$.
+The product of the three consecutive integers is $(3q+1)(3q+2)(3q+3)$.
+We can factor out a 3 from the third term: $(3q+1)(3q+2) \cdot 3(q+1)$.
+Thus, the product is $3 \cdot (3q+1)(3q+2)(q+1)$.
+Since one of the factors is 3, the product is divisible by 3.
+
+**Case 3: $n$ has a remainder of 2 when divided by 3.**
+If $n$ has a remainder of 2 when divided by 3, then $n = 3q+2$ for some integer $q$.
+The three consecutive integers are $3q+2$, $(3q+2)+1 = 3q+3$, and $(3q+2)+2 = 3q+4$.
+The product of the three consecutive integers is $(3q+2)(3q+3)(3q+4)$.
+We can factor out a 3 from the second term: $(3q+2) \cdot 3(q+1) \cdot (3q+4)$.
+Thus, the product is $3 \cdot (3q+2)(q+1)(3q+4)$.
+Since one of the factors is 3, the product is divisible by 3.
+
+In all three cases, the product of any three consecutive integers is divisible by 3.
+
+b. Use the mod notation to rewrite the result of part (a).
+
+**Solution:**
+Part (a) states that the product of any three consecutive integers is divisible by 3.
+In terms of modular arithmetic, this means that the product is congruent to 0 modulo 3.
+
+Let the three consecutive integers be $n$, $n+1$, and $n+2$.
+The product is $P = n(n+1)(n+2)$.
+The result from part (a) can be written as:
+$n(n+1)(n+2) \equiv 0 \pmod{3}$
+
+\newpage
+
+\section*{Problem 19}
+Here is the solution to problem 19 from the provided image.
+
+Problem 19 states:
+Show that any integer $n$ can be written in one of the three forms:
+$n = 3q$ or $n = 3q + 1$ or $n = 3q + 2$ for some integer $q$.
+
+Solution:
+We will use the Quotient-Remainder Theorem. The Quotient-Remainder Theorem states that for any integers $a$ and $b$ with $b > 0$, there exist unique integers $q$ and $r$ such that $a = bq + r$ and $0 \le r < b$.
+
+In this problem, we want to show that any integer $n$ can be written in one of the three specified forms. We can set $a = n$ and $b = 3$ in the Quotient-Remainder Theorem.
+
+According to the theorem, there exist unique integers $q$ (the quotient) and $r$ (the remainder) such that:
+$n = 3q + r$
+
+And the condition on the remainder $r$ is:
+$0 \le r < 3$
+
+This means that the possible integer values for the remainder $r$ are $0$, $1$, and $2$. We will consider each of these possible values for $r$:
+
+Case 1: $r = 0$
+If the remainder is $0$, then the equation becomes:
+$n = 3q + 0$
+$n = 3q$
+This is the first form mentioned in the problem.
+
+Case 2: $r = 1$
+If the remainder is $1$, then the equation becomes:
+$n = 3q + 1$
+This is the second form mentioned in the problem.
+
+Case 3: $r = 2$
+If the remainder is $2$, then the equation becomes:
+$n = 3q + 2$
+This is the third form mentioned in the problem.
+
+Since these are the only possible values for the remainder $r$ when dividing by $3$, every integer $n$ must fall into one of these three categories. Therefore, any integer $n$ can be written in one of the forms $n = 3q$, $n = 3q + 1$, or $n = 3q + 2$ for some integer $q$.
+
+The final answer is $\boxed{Any integer n can be written in one of the three forms n = 3q, n = 3q + 1, or n = 3q + 2 for some integer q, by the Quotient-Remainder Theorem with divisor 3.}$.
+
+\newpage
+
+\end{document}
