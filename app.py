@@ -289,7 +289,7 @@ def stream(session_id):
         else:
             yield "data: ✨ All problems already solved. Finalizing PDF...\n\n"
 
-        # 🔧 FINALIZATION: Run this regardless of if we just solved or just resumed at the end
+        # --- Finalization ---
         with open(tex_file, "r") as f:
             full_content = f.read()
         
@@ -297,14 +297,29 @@ def stream(session_id):
             with open(tex_file, "a") as f_end:
                 f_end.write(r"\end{document}")
 
-        yield "data: 🖨️ Compiling PDF solutions...\n\n"
-        create_pdf_from_tex(tex_file, sol_pdf)
-        
-        # Create practice version names
-        practice_problems = [f"Practice version of problem {i}" for i in range(1, manual_count + 1)]
-        create_practice_pdf(practice_problems, os.path.basename(prac_pdf))
+        yield "data: 🖨️ Compiling PDF solutions (this may take a minute)... \n\n"
 
-        yield f"data: SUCCESS:{os.path.basename(sol_pdf)}|{os.path.basename(prac_pdf)}\n\n"
+        # 🔧 FIX: Run compilation in a background way so we can send heartbeats
+        # This keeps the Render/Browser connection from timing out
+        import threading
+        
+        def compile_worker():
+            create_pdf_from_tex(tex_file, sol_pdf)
+            practice_problems = [f"Practice version of problem {i}" for i in range(1, manual_count + 1)]
+            create_practice_pdf(practice_problems, os.path.basename(prac_pdf))
+
+        thread = threading.Thread(target=compile_worker)
+        thread.start()
+
+        # While the thread is working, send a "." every 2 seconds to keep connection alive
+        while thread.is_alive():
+            yield "data: . \n\n"
+            time.sleep(2)
+
+        if os.path.exists(sol_pdf):
+            yield f"data: SUCCESS:{os.path.basename(sol_pdf)}|{os.path.basename(prac_pdf)}\n\n"
+        else:
+            yield "data: ❌ PDF compilation failed. Check your LaTeX code.\n\n"
 
     return Response(generate(), mimetype="text/event-stream")
 
