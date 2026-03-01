@@ -1,6 +1,6 @@
 import os, re, time, uuid, subprocess
 from datetime import datetime, timedelta
-from flask import Flask, request, Response, send_file, abort, send_from_directory, render_template
+from flask import Flask, request, Response, send_file, abort, render_template
 from dotenv import load_dotenv
 import sympy as sp
 from google import genai
@@ -21,7 +21,7 @@ MAX_PROBLEMS = 150
 FILE_TTL_MINUTES = 60
 TEX_TTL_HOURS = 72
 MAX_RETRIES = 15
-RATE_LIMIT_DELAY = 10  # seconds between Gemini calls
+RATE_LIMIT_DELAY = 10
 
 # ------------------ Utilities ------------------
 def secure_filename(name: str) -> str:
@@ -55,16 +55,20 @@ def surgical_markdown_scrubber(text):
     text = re.sub(r'\*\*(.*?)\*\*', r'\\textbf{\1}', text)
     text = re.sub(r'\\textbf\{Problem \d+\}', '', text)
     footnotes = {}
+
     def stash(m):
         k = f"__FN_{len(footnotes)}__"
         footnotes[k] = m.group(0)
         return k
+
     text = re.sub(r'\\footnote\{.*?\}', stash, text)
     text = re.sub(r'(?<!\d)\s*\*\s*(?!\d)', '', text)
     text = re.sub(r'(?<!\d)\*(?!\d)', '', text)
     text = re.sub(r'([A-Za-z])\*(?!\d)', r'\1\\footnote{}', text)
+
     for k, v in footnotes.items():
         text = text.replace(k, v)
+
     text = re.sub(r'^\s*[-•]\s*', '', text, flags=re.MULTILINE)
     text = re.sub(r'\n{3,}', '\n\n', text)
     text = text.replace('### ', '').replace('## ', '')
@@ -75,7 +79,8 @@ def surgical_markdown_scrubber(text):
 def verify_integral(raw):
     try:
         m = re.search(r'\\int\s*(.*?)\s*d([a-z])\s*=\s*(.*)', raw)
-        if not m: return True, None
+        if not m:
+            return True, None
         integrand = sp.sympify(m.group(1))
         var = sp.symbols(m.group(2))
         result = sp.sympify(m.group(3).replace('+ C', '').strip())
@@ -88,7 +93,8 @@ def verify_division(raw):
         q = re.search(r'q\s*=\s*(-?\d+)', raw)
         r = re.search(r'r\s*=\s*(-?\d+)', raw)
         eq = re.search(r'(\d+)\s*=\s*(\d+)\s*\*\s*q\s*\+\s*r', raw)
-        if not (q and r and eq): return True, None
+        if not (q and r and eq):
+            return True, None
         n, d = int(eq.group(1)), int(eq.group(2))
         return n == d * int(q.group(1)) + int(r.group(1)), None
     except Exception as e:
@@ -108,18 +114,24 @@ def unit_sanity(raw):
 
 # ------------------ PDF / LaTeX ------------------
 def create_pdf_from_tex(tex_path, pdf_path):
-    subprocess.run(["pdflatex", "-output-directory", TMP_DIR, tex_path],
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.run(
+        ["pdflatex", "-output-directory", TMP_DIR, tex_path],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
     return pdf_path
 
 def create_practice_pdf(problems, filename):
     path = os.path.join(TMP_DIR, filename)
     from reportlab.platypus import SimpleDocTemplate, Paragraph
     from reportlab.lib.styles import getSampleStyleSheet
+
     doc = SimpleDocTemplate(path)
     styles = getSampleStyleSheet()
-    content = [Paragraph(f"<b>Problem {i}</b><br/>{p.replace(chr(10), '<br/>')}", styles["Normal"])
-               for i, p in enumerate(problems, 1)]
+    content = [
+        Paragraph(f"<b>Problem {i}</b><br/>{p.replace(chr(10), '<br/>')}", styles["Normal"])
+        for i, p in enumerate(problems, 1)
+    ]
     doc.build(content)
     return path
 
@@ -156,7 +168,8 @@ def index():
 
 @app.route("/upload_full", methods=["POST"])
 def upload_file():
-    if "file" not in request.files: abort(400, "No file")
+    if "file" not in request.files:
+        abort(400, "No file")
     file = request.files["file"]
     original = secure_filename(file.filename)
     session_id = uuid.uuid4().hex
@@ -164,62 +177,78 @@ def upload_file():
     file.save(input_path)
     return {"filename": original, "session": session_id}
 
-@app.route("/upload_batch", methods=["POST"])
-def upload_batch():
-    data = request.get_json()
-    images = data.get("images", [])
-    original_name = secure_filename(data.get("original_name", "batch.pdf"))
-    session_id = uuid.uuid4().hex
-    batch_files = []
-    for i, img in enumerate(images):
-        img_path = os.path.join(TMP_DIR, f"{session_id}_{i}.png")
-        with open(img_path, "wb") as f:
-            f.write(bytes(img.split(",")[1], "utf-8"))
-        batch_files.append(img_path)
-    return {"filenames": batch_files, "session": session_id}
-
 @app.route("/stream/<session_id>")
 def stream(session_id):
     manual_count = int(request.args.get("manual_count", "0") or 0)
-    if manual_count > MAX_PROBLEMS: abort(400, "Too many problems")
+    if manual_count > MAX_PROBLEMS:
+        abort(400, "Too many problems")
+
     tex_file = os.path.join(TMP_DIR, f"{session_id}_Solutions.tex")
     sol_pdf = os.path.join(TMP_DIR, f"{session_id}_Solutions.pdf")
     prac_pdf = os.path.join(TMP_DIR, f"{session_id}_Practice.pdf")
 
     def generate():
         yield "data: 🚀 Stream connected. Preparing session...\n\n"
-        if os.path.exists(tex_file):
-            yield f"data: Found existing .tex, regenerating PDFs...\n\n"
-            create_pdf_from_tex(tex_file, sol_pdf)
-            practice = [f"Practice version of problem {i}" for i in range(1, manual_count+1)]
-            create_practice_pdf(practice, os.path.basename(prac_pdf))
-            yield f"data: SUCCESS:{os.path.basename(sol_pdf)}|{os.path.basename(prac_pdf)}\n\n"
-            return
-        with open(tex_file, "w") as f:
-            f.write(r"\documentclass{article}\usepackage{amsmath,amssymb,tikz}\begin{document}")
+
+        # 🔧 FIX: locate PDF
         pdf_path = None
         for f_name in os.listdir(TMP_DIR):
             if f_name.startswith(session_id) and f_name.lower().endswith(".pdf"):
                 pdf_path = os.path.join(TMP_DIR, f_name)
                 break
-        physics_flag = pdf_path and is_physics_pdf(pdf_path)
-        for i in range(1, manual_count+1):
+
+        if not pdf_path:
+            yield "data: ❌ Error: PDF not found for this session.\n\n"
+            return
+
+        # 🔧 FIX: upload PDF to Gemini File API
+        try:
+            yield "data: 📤 Uploading PDF to Gemini...\n\n"
+            uploaded_file = client.files.upload(path=pdf_path)
+
+            while uploaded_file.state.name == "PROCESSING":
+                time.sleep(2)
+                uploaded_file = client.files.get(name=uploaded_file.name)
+
+            yield "data: ✅ PDF ready for processing.\n\n"
+        except Exception as e:
+            yield f"data: ❌ Upload failed: {e}\n\n"
+            return
+
+        physics_flag = is_physics_pdf(pdf_path)
+
+        with open(tex_file, "w") as f:
+            f.write(r"\documentclass{article}\usepackage{amsmath,amssymb,tikz}\begin{document}")
+
+        for i in range(1, manual_count + 1):
             yield f"data: Solving problem {i}/{manual_count}...\n\n"
             prompt = f"Solve problem {i}."
             if physics_flag:
                 prompt += " Include a free body diagram using TikZ in LaTeX. No markdown."
+
             for attempt in range(MAX_RETRIES):
                 try:
-                    contents = [prompt]
-                    if physics_flag: contents.insert(0, pdf_path)
-                    resp = client.models.generate_content(model="gemini-2.5-flash-lite",
-                                                          contents=contents)
+                    # 🔧 FIX: pass uploaded_file, NOT local path
+                    resp = client.models.generate_content(
+                        model="gemini-2.5-flash-lite",
+                        contents=[uploaded_file, prompt],
+                    )
+
                     raw = resp.text.replace("```", "").strip()
-                    if any(p in raw.lower() for p in HALLUCINATION_PHRASES): continue
-                    checks = [verify_integral(raw), verify_division(raw),
-                              step_consistency(raw), unit_sanity(raw)]
+                    if any(p in raw.lower() for p in HALLUCINATION_PHRASES):
+                        continue
+
+                    checks = [
+                        verify_integral(raw),
+                        verify_division(raw),
+                        step_consistency(raw),
+                        unit_sanity(raw),
+                    ]
                     errors = [e for ok, e in checks if not ok]
-                    if errors: yield f"data: ❌ Problem {i}: {errors[0]}\n\n"; continue
+                    if errors:
+                        yield f"data: ❌ Problem {i}: {errors[0]}\n\n"
+                        continue
+
                     clean = surgical_markdown_scrubber(raw)
                     with open(tex_file, "a") as f_tex:
                         f_tex.write(f"\\section*{{Problem {i}}}\n{clean}\n\\newpage\n")
@@ -229,11 +258,14 @@ def stream(session_id):
                     time.sleep(RATE_LIMIT_DELAY)
             else:
                 yield f"data: ❌ Problem {i} failed after {MAX_RETRIES} attempts\n\n"
+
         with open(tex_file, "a") as f:
             f.write(r"\end{document}")
+
         create_pdf_from_tex(tex_file, sol_pdf)
-        practice = [f"Practice version of problem {i}" for i in range(1, manual_count+1)]
+        practice = [f"Practice version of problem {i}" for i in range(1, manual_count + 1)]
         create_practice_pdf(practice, os.path.basename(prac_pdf))
+
         yield f"data: SUCCESS:{os.path.basename(sol_pdf)}|{os.path.basename(prac_pdf)}\n\n"
 
     return Response(generate(), mimetype="text/event-stream")
@@ -241,7 +273,8 @@ def stream(session_id):
 @app.route("/download/<filename>")
 def download(filename):
     path = os.path.join(TMP_DIR, secure_filename(filename))
-    if not os.path.exists(path): abort(404)
+    if not os.path.exists(path):
+        abort(404)
     return send_file(path, as_attachment=True)
 
 # ------------------ Run ------------------
