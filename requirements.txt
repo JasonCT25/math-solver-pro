@@ -4,3 +4,4 @@ Werkzeug==3.0.0
 python-dotenv==1.0.1
 sympy==1.12
 reportlab==4.0.8
+gunicorn==21.2.0
