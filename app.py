@@ -1,4 +1,4 @@
-import os, re, time, uuid, subprocess
+import os, re, time, uuid, subprocess, base64
 from datetime import datetime, timedelta
 from flask import Flask, request, Response, send_file, abort, render_template
 from dotenv import load_dotenv
@@ -177,6 +177,20 @@ def upload_file():
     file.save(input_path)
     return {"filename": original, "session": session_id}
 
+# 🔧 FIX: Re-added the missing upload_batch function with base64 decoding
+@app.route("/upload_batch", methods=["POST"])
+def upload_batch():
+    data = request.get_json()
+    images = data.get("images", [])
+    session_id = uuid.uuid4().hex
+    batch_files = []
+    for i, img in enumerate(images):
+        img_path = os.path.join(TMP_DIR, f"{session_id}_{i}.png")
+        with open(img_path, "wb") as f:
+            f.write(base64.b64decode(img.split(",")[1]))
+        batch_files.append(img_path)
+    return {"filenames": batch_files, "session": session_id}
+
 @app.route("/stream/<session_id>")
 def stream(session_id):
     manual_count = int(request.args.get("manual_count", "0") or 0)
@@ -190,33 +204,37 @@ def stream(session_id):
     def generate():
         yield "data: 🚀 Stream connected. Preparing session...\n\n"
 
-        # 🔧 FIX: locate PDF
-        pdf_path = None
-        for f_name in os.listdir(TMP_DIR):
-            if f_name.startswith(session_id) and f_name.lower().endswith(".pdf"):
-                pdf_path = os.path.join(TMP_DIR, f_name)
-                break
+        # 🔧 FIX: locate PDFs OR PNGs for this session
+        session_files = []
+        for f_name in sorted(os.listdir(TMP_DIR)):
+            if f_name.startswith(session_id) and f_name.lower().endswith((".pdf", ".png")):
+                session_files.append(os.path.join(TMP_DIR, f_name))
 
-        if not pdf_path:
-            yield "data: ❌ Error: PDF not found for this session.\n\n"
+        if not session_files:
+            yield "data: ❌ Error: No files found for this session.\n\n"
             return
 
-        # 🔧 FIX: upload PDF to Gemini File API
+        # 🔧 FIX: upload ALL located files to Gemini File API
+        uploaded_files = []
         try:
-            yield "data: 📤 Uploading PDF to Gemini...\n\n"
-            uploaded_file = client.files.upload(file=pdf_path)
+            yield f"data: 📤 Uploading {len(session_files)} file(s) to Gemini...\n\n"
+            for f_path in session_files:
+                up_file = client.files.upload(file=f_path)
+                
+                while getattr(up_file.state, "name", str(up_file.state)) == "PROCESSING":
+                    time.sleep(2)
+                    up_file = client.files.get(name=up_file.name)
+                
+                uploaded_files.append(up_file)
 
-            # Safely check if it's processing without causing an attribute error
-            while getattr(uploaded_file.state, "name", str(uploaded_file.state)) == "PROCESSING":
-                time.sleep(2)
-                uploaded_file = client.files.get(name=uploaded_file.name)
-
-            yield "data: ✅ PDF ready for processing.\n\n"
+            yield "data: ✅ Files ready for processing.\n\n"
         except Exception as e:
             yield f"data: ❌ Upload failed: {e}\n\n"
             return
 
-        physics_flag = is_physics_pdf(pdf_path)
+        # Only run physics check if a PDF was uploaded
+        pdf_path = next((f for f in session_files if f.lower().endswith('.pdf')), None)
+        physics_flag = is_physics_pdf(pdf_path) if pdf_path else False
 
         with open(tex_file, "w") as f:
             f.write(r"\documentclass{article}\usepackage{amsmath,amssymb,tikz}\begin{document}")
@@ -229,10 +247,12 @@ def stream(session_id):
 
             for attempt in range(MAX_RETRIES):
                 try:
-                    # 🔧 FIX: pass uploaded_file, NOT local path
+                    # 🔧 FIX: Pass the entire list of uploaded files, plus the prompt
+                    contents = [*uploaded_files, prompt]
+                    
                     resp = client.models.generate_content(
                         model="gemini-2.5-flash-lite",
-                        contents=[uploaded_file, prompt],
+                        contents=contents,
                     )
 
                     raw = resp.text.replace("```", "").strip()
