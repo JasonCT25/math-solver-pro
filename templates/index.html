@@ -30,6 +30,7 @@
         .btn-primary { background: #007bff; color: white; }
         .btn-success { background: #28a745; color: white; }
         .btn-danger { background: #dc3545; color: white; }
+        .btn-secondary { background:#6c757d; color:white; }
 
         /* Integrated Scrollable Console */
         #console { 
@@ -66,14 +67,14 @@
         <div class="controls">
             <input type="file" id="fileInput">
             <button id="expressBtn" class="btn btn-primary">🚀 Solve Full PDF</button>
-            <button id="toggleCrop" class="btn btn-secondary" style="background:#6c757d; color:white;">✂️ Custom Crop Mode</button>
+            <button id="toggleCrop" class="btn btn-secondary">✂️ Custom Crop Mode</button>
         </div>
     </div>
 
     <div id="cropInterface" class="card" style="display:none;">
         <div class="controls">
-            <button id="prevPage" class="btn btn-secondary" style="background:#6c757d; color:white;">◀ Prev</button>
-            <button id="nextPage" class="btn btn-secondary" style="background:#6c757d; color:white;">Next ▶</button>
+            <button id="prevPage" class="btn btn-secondary">◀ Prev</button>
+            <button id="nextPage" class="btn btn-secondary">Next ▶</button>
             <button id="addCrop" class="btn btn-primary">➕ Add Crop</button>
             <button id="clearQueue" class="btn btn-danger">🗑️ Clear Queue</button>
             <span class="queue-badge" id="queueStatus">Queue: 0 items</span>
@@ -184,7 +185,6 @@
             document.getElementById('solveBatch').disabled = !e.target.value;
         };
 
-        // Integrated Stream Logic
         async function startStream(filename, count) {
             const consoleCard = document.getElementById('console-card');
             const consoleDiv = document.getElementById('console');
@@ -198,19 +198,18 @@
             
             eventSource.onmessage = (e) => {
                 if (e.data.includes("SUCCESS:")) {
-                    const pdf = e.data.split(":")[1];
+                    const pdfs = e.data.split(":")[1].split("|");
+                    const sol = pdfs[0], prac = pdfs[1];
                     eventSource.close();
                     header.textContent = "✅ DONE!";
-                    document.getElementById('finalDownload').href = `/download/${pdf}`;
+                    document.getElementById('finalDownload').href = `/download/${sol}`;
                     document.getElementById('downloadArea').style.display = 'block';
-                    window.location.href = `/download/${pdf}`;
+                    window.location.href = `/download/${sol}`;
                 } else {
-                    // Update Dynamic Summary Header
                     if (e.data.includes("Solving problem")) {
-                        header.textContent = "📊 Progress: " + e.data.split("✍️")[1];
+                        header.textContent = "📊 Progress: " + e.data.split("...")[0];
                     }
                     consoleDiv.innerHTML += e.data + "<br>";
-                    // Auto-scroll logic
                     consoleDiv.scrollTop = consoleDiv.scrollHeight;
                 }
             };
@@ -220,9 +219,10 @@
             if (!document.getElementById('fileInput').files[0]) return alert("Select a file!");
             const formData = new FormData();
             formData.append('file', document.getElementById('fileInput').files[0]);
+            // FIX: Changed from /upload to /upload_full to match app.py
             const res = await fetch('/upload_full', { method: 'POST', body: formData });
-            const { filename } = await res.json();
-            startStream(filename, "");
+            const { session } = await res.json();
+            startStream(session, "");
         };
 
         document.getElementById('solveBatch').onclick = async () => {
@@ -231,8 +231,9 @@
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ images: cropQueue, original_name: document.getElementById('fileInput').files[0].name })
             });
-            const { filenames } = await res.json();
-            startStream(filenames, document.getElementById('manualCount').value);
+            // FIX: Extract 'session' instead of 'filenames', and pass 'session' to startStream
+            const { session } = await res.json();
+            startStream(session, document.getElementById('manualCount').value);
         };
     </script>
 </body>
