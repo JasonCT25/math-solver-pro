@@ -259,7 +259,7 @@ def stream(session_id):
                     try:
                         contents = [*uploaded_files, prompt]
                         resp = client.models.generate_content(
-                            model="gemini-2.0-flash-lite",
+                            model="gemini-2.5-flash-lite",
                             contents=contents,
                         )
                         raw = resp.text.replace("```", "").strip()
