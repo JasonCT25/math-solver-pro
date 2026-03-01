@@ -204,9 +204,10 @@ def stream(session_id):
         # 🔧 FIX: upload PDF to Gemini File API
         try:
             yield "data: 📤 Uploading PDF to Gemini...\n\n"
-            uploaded_file = client.files.upload(path=pdf_path)
+            uploaded_file = client.files.upload(file=pdf_path)
 
-            while uploaded_file.state.name == "PROCESSING":
+            # Safely check if it's processing without causing an attribute error
+            while getattr(uploaded_file.state, "name", str(uploaded_file.state)) == "PROCESSING":
                 time.sleep(2)
                 uploaded_file = client.files.get(name=uploaded_file.name)
 
