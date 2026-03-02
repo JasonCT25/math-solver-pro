@@ -92,12 +92,19 @@
     </div>
 
     <div id="console-card" style="display:none; margin-top: 20px;">
-        <div id="progress-header">Current Status: Initializing...</div>
+        <div id="progress-header">
+            Current Status: Initializing...
+            <div style="background:#444;height:10px;border-radius:5px;margin-top:8px;">
+                <div id="progress-bar" style="height:10px;width:0%;background:#28a745;border-radius:5px;"></div>
+            </div>
+        </div>
         <div id="console"></div>
     </div>
 
     <div id="downloadArea" style="display:none; text-align: center; margin-top: 20px;">
         <a href="#" id="finalDownload" class="btn btn-success" style="padding: 20px 40px; font-size: 20px;">📥 Download Your Solutions PDF</a>
+        <br><br>
+        <a href="#" id="logDownload" class="btn btn-secondary">📄 Download Logic Log</a>
     </div>
 
     <script>
@@ -188,6 +195,10 @@
         async function startStream(session, count) {
             const consoleDiv = document.getElementById('console');
             const header = document.getElementById('progress-header');
+            
+            document.getElementById('expressBtn').disabled = true;
+            document.getElementById('solveBatch').disabled = true;
+            
             document.getElementById('console-card').style.display = 'block';
             header.style.display = 'block';
 
@@ -219,11 +230,21 @@
                     eventSource.close();
                     header.textContent = "✅ DONE!";
                     document.getElementById('finalDownload').href = `/download/${pdfs[0]}`;
+                    document.getElementById('logDownload').href = `/download_log/${session}`;
                     document.getElementById('downloadArea').style.display = 'block';
                     window.location.href = `/download/${pdfs[0]}`;
+                
+                    document.getElementById('expressBtn').disabled = false;
+                    document.getElementById('solveBatch').disabled = false;
                 } else {
                     if (e.data.includes("Solving problem")) {
                         header.textContent = "📊 Progress: " + e.data.split("...")[0];
+
+                        const match = e.data.match(/(\d+)\/(\d+)/);
+                        if (match) {
+                            const percent = (parseInt(match[1]) / parseInt(match[2])) * 100;
+                            document.getElementById("progress-bar").style.width = percent + "%";
+                        }
                     }
                     consoleDiv.innerHTML += e.data + "<br>";
                     consoleDiv.scrollTop = consoleDiv.scrollHeight;
